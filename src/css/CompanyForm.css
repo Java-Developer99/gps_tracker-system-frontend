@@ -1,0 +1,416 @@
+.sf-company-form-page {
+    width: 100%;
+}
+
+/* HEADER */
+
+.sf-company-form-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.sf-company-form-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.sf-company-form-heading h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sf-company-form-heading p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* BACK */
+
+.sf-company-form-back-button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #4b5563;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.sf-company-form-back-button:hover {
+    background: #f8fafc;
+    border-color: #d1d5db;
+}
+
+.sf-company-form-back-button svg {
+    width: 17px;
+    height: 17px;
+}
+
+/* CARD */
+
+.sf-company-form-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+}
+
+.sf-company-form-card-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid #eef0f3;
+}
+
+.sf-company-form-card-header h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sf-company-form-card-header p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 11px;
+}
+
+/* FORM */
+
+.sf-company-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding: 24px 22px;
+}
+
+.sf-company-form-field {
+    min-width: 0;
+}
+
+.sf-company-form-field-full {
+    grid-column: 1 / -1;
+}
+
+.sf-company-form-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.sf-company-form-field label span {
+    color: #dc2626;
+}
+
+/* INPUT */
+
+.sf-company-form-input-wrapper {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    background: #fff;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.sf-company-form-input-wrapper:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.sf-company-form-input-wrapper > svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: #94a3b8;
+}
+
+.sf-company-form-input-wrapper input,
+.sf-company-form-input-wrapper select,
+.sf-company-form-input-wrapper textarea {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #1e293b;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.sf-company-form-input-wrapper input,
+.sf-company-form-input-wrapper select {
+    height: 40px;
+}
+
+.sf-company-form-input-wrapper input::placeholder,
+.sf-company-form-input-wrapper textarea::placeholder {
+    color: #94a3b8;
+}
+
+.sf-company-form-input-wrapper select {
+    cursor: pointer;
+}
+
+.sf-company-form-input-wrapper select:disabled {
+    cursor: not-allowed;
+}
+
+/* TEXTAREA */
+
+.sf-company-form-textarea-wrapper {
+    align-items: flex-start;
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
+.sf-company-form-textarea-wrapper textarea {
+    min-height: 90px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* FOOTER */
+
+.sf-company-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 22px;
+    border-top: 1px solid #eef0f3;
+    background: #fafbfc;
+}
+
+/* CANCEL */
+
+.sf-company-form-cancel-button {
+    min-height: 38px;
+    padding: 0 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    background: #fff;
+    color: #475569;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sf-company-form-cancel-button:hover {
+    background: #f8fafc;
+}
+
+/* SAVE */
+
+.sf-company-form-save-button {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 15px;
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sf-company-form-save-button:hover {
+    background: #1d4ed8;
+}
+
+.sf-company-form-save-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* DISABLED */
+
+.sf-company-form-cancel-button:disabled,
+.sf-company-form-save-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* MESSAGES */
+
+.sf-company-form-message {
+    margin: 0 22px 16px;
+    padding: 10px 12px;
+    border-radius: 7px;
+    font-size: 11px;
+}
+
+.sf-company-form-error-message {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.sf-company-form-success-message {
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .sf-company-form {
+        grid-template-columns: 1fr;
+    }
+
+    .sf-company-form-field-full {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .sf-company-form-heading h1 {
+        font-size: 20px;
+    }
+
+    .sf-company-form-heading p {
+        font-size: 11px;
+    }
+
+    .sf-company-form {
+        padding: 20px 18px;
+    }
+
+    .sf-company-form-card-header {
+        padding: 18px;
+    }
+
+    .sf-company-form-footer {
+        padding: 15px 18px;
+    }
+
+    .sf-company-form-message {
+        margin-left: 18px;
+        margin-right: 18px;
+    }
+}
+
+@media (max-width: 430px) {
+
+    .sf-company-form-heading {
+        gap: 9px;
+    }
+
+    .sf-company-form-back-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sf-company-form-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .sf-company-form-cancel-button,
+    .sf-company-form-save-button {
+        width: 100%;
+    }
+}
+
+/* LOADING */
+
+.sf-company-form-loading {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.sf-company-form-spinner {
+    width: 26px;
+    height: 26px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: sfCompanyFormSpin 0.8s linear infinite;
+}
+
+@keyframes sfCompanyFormSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ERROR CARD */
+
+.sf-company-form-error-card {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 35px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.sf-company-form-error-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sf-company-form-error-card h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 16px;
+}
+
+.sf-company-form-error-card p {
+    margin: 8px 0 20px;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.sf-company-form-error-card button {
+    min-height: 38px;
+    padding: 0 15px;
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}

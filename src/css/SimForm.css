@@ -1,0 +1,367 @@
+.sf-sim-form-page {
+    /* padding: 28px; */
+    min-height: 100%;
+    /* background: #f8fafc; */
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.sf-sim-form-page-header {
+    margin-bottom: 24px;
+}
+
+.sf-sim-form-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.sf-sim-form-heading h1 {
+    margin: 0 0 5px;
+    color: #0f172a;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.sf-sim-form-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.sf-sim-form-back-button {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    color: #475569;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sf-sim-form-back-button:hover {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.sf-sim-form-card {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.sf-sim-form-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.sf-sim-form-card-header h2 {
+    margin: 0 0 5px;
+    color: #0f172a;
+    font-size: 17px;
+    font-weight: 650;
+}
+
+.sf-sim-form-card-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+/* =========================
+   MESSAGES
+========================= */
+
+.sf-sim-form-message {
+    margin: 18px 24px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 11px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.sf-sim-form-message svg {
+    margin-top: 1px;
+    flex: 0 0 auto;
+}
+
+.sf-sim-form-error {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.sf-sim-form-success {
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.sf-sim-form {
+    padding: 24px;
+}
+
+.sf-sim-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 22px;
+}
+
+.sf-sim-form-group {
+    min-width: 0;
+}
+
+.sf-sim-form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.sf-sim-required {
+    margin-left: 3px;
+    color: #dc2626;
+}
+
+.sf-sim-form-group input,
+.sf-sim-form-group select {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    border: 1px solid #dbe3ec;
+    border-radius: 7px;
+    background: #fff;
+    color: #0f172a;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.sf-sim-form-group input::placeholder {
+    color: #94a3b8;
+}
+
+.sf-sim-form-group input:focus,
+.sf-sim-form-group select:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.sf-sim-form-input-error {
+    border-color: #f87171 !important;
+}
+
+.sf-sim-field-error {
+    display: block;
+    margin-top: 5px;
+    color: #dc2626;
+    font-size: 12px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.sf-sim-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.sf-sim-form-cancel-button,
+.sf-sim-form-save-button {
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sf-sim-form-cancel-button {
+    border: 1px solid #dbe3ec;
+    background: #fff;
+    color: #475569;
+}
+
+.sf-sim-form-cancel-button:hover {
+    background: #f8fafc;
+}
+
+.sf-sim-form-save-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #2563eb;
+    background: #2563eb;
+    color: #fff;
+}
+
+.sf-sim-form-save-button:hover {
+    background: #1d4ed8;
+}
+
+.sf-sim-form-cancel-button:disabled,
+.sf-sim-form-save-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    .sf-sim-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .sf-sim-form-page {
+        padding: 20px 16px;
+    }
+
+    .sf-sim-form-card {
+        max-width: none;
+    }
+
+    .sf-sim-form {
+        padding: 20px;
+    }
+
+    .sf-sim-form-card-header {
+        padding: 18px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sf-sim-form-page {
+        padding: 16px 12px;
+    }
+
+    .sf-sim-form-heading h1 {
+        font-size: 22px;
+    }
+
+    .sf-sim-form {
+        padding: 18px 16px;
+    }
+
+    .sf-sim-form-footer {
+        flex-direction: column-reverse;
+    }
+
+    .sf-sim-form-cancel-button,
+    .sf-sim-form-save-button {
+        width: 100%;
+    }
+}
+
+/* =========================
+   LOADING / ERROR PAGE
+========================= */
+
+.sf-sim-form-loading {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.sf-sim-form-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: sfSimFormSpin 0.8s linear infinite;
+}
+
+@keyframes sfSimFormSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sf-sim-form-error-card {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 35px 25px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.sf-sim-form-error-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 22px;
+}
+
+.sf-sim-form-error-card h2 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 18px;
+}
+
+.sf-sim-form-error-card p {
+    margin: 0 0 20px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.sf-sim-form-error-card button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}

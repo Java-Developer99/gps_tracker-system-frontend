@@ -1,0 +1,480 @@
+.sf-company-list-page {
+    width: 100%;
+}
+
+/* HEADER */
+
+.sf-company-list-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.sf-company-list-page-header h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sf-company-list-page-header p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* ADD BUTTON */
+
+.sf-company-add-button {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.sf-company-add-button:hover {
+    background: #1d4ed8;
+}
+
+.sf-company-add-button svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* TOOLBAR */
+
+.sf-company-list-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.sf-company-search-wrapper {
+    height: 40px;
+    flex: 1;
+    max-width: 420px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+}
+
+.sf-company-search-wrapper svg {
+    width: 15px;
+    height: 15px;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.sf-company-search-wrapper input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #1e293b;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.sf-company-search-wrapper input::placeholder {
+    color: #94a3b8;
+}
+
+.sf-company-refresh-button {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 13px;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+    background: #fff;
+    color: #475569;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sf-company-refresh-button:hover {
+    background: #f8fafc;
+}
+
+.sf-company-refresh-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.sf-company-refresh-spin {
+    animation: sfCompanyRefreshSpin 0.8s linear infinite;
+}
+
+@keyframes sfCompanyRefreshSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* TABLE CARD */
+
+.sf-company-table-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    overflow: visible;
+}
+
+.sf-company-table-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid #eef0f3;
+}
+
+.sf-company-table-header h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sf-company-table-header p {
+    margin: 5px 0 0;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* TABLE */
+
+.sf-company-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.sf-company-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.sf-company-table th {
+    padding: 12px 18px;
+    background: #fafbfc;
+    border-bottom: 1px solid #eef0f3;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.sf-company-table td {
+    position: relative;
+    padding: 14px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 12px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.sf-company-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.sf-company-table tbody tr:hover {
+    background: #fafcff;
+}
+
+/* COMPANY IDENTITY */
+
+.sf-company-identity {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 180px;
+}
+
+.sf-company-avatar {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.sf-company-identity>div:last-child {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sf-company-identity strong {
+    color: #1e293b;
+    font-size: 12px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.sf-company-identity span {
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+/* SUBDEALER */
+
+.sf-company-subdealer {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* GST */
+
+.sf-company-gst {
+    color: #475569;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* ADDRESS */
+
+.sf-company-address {
+    max-width: 260px;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* ACTIONS */
+
+.sf-company-actions-heading {
+    width: 60px;
+    text-align: right !important;
+}
+
+.sf-company-actions-cell {
+    position: relative;
+    width: 60px;
+    min-width: 60px;
+    text-align: right;
+    overflow: visible !important;
+}
+
+.sf-company-menu-button {
+    width: 32px;
+    height: 32px;
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.sf-company-menu-button:hover {
+    background: #f8fafc;
+    border-color: #e5e7eb;
+    color: #334155;
+}
+
+.sf-company-menu-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+.sf-company-action-menu {
+    position: absolute;
+    top: calc(100% - 100px);
+    right: 10px;
+    width: 160px;
+    padding: 5px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, 0.12),
+        0 3px 8px rgba(15, 23, 42, 0.06);
+    z-index: 9999;
+}
+
+.sf-company-menu-up .sf-company-action-menu {
+    top: auto;
+    bottom: calc(100% - 100px);
+}
+
+.sf-company-action-menu button {
+    width: 100%;
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 9px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #475569;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sf-company-action-menu button:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.sf-company-action-menu svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* EMPTY */
+
+.sf-company-empty-cell {
+    padding: 0 !important;
+}
+
+.sf-company-empty {
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.sf-company-empty-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sf-company-empty h3 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sf-company-empty p {
+    margin: 6px 0 0;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* LOADING */
+
+.sf-company-list-loading {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.sf-company-list-spinner {
+    width: 26px;
+    height: 26px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: sfCompanyListSpin 0.8s linear infinite;
+}
+
+@keyframes sfCompanyListSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ERROR */
+
+.sf-company-list-error {
+    margin-bottom: 16px;
+    padding: 11px 14px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 12px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+    .sf-company-list-page-header {
+        align-items: flex-start;
+    }
+
+    .sf-company-list-page-header h1 {
+        font-size: 20px;
+    }
+
+    .sf-company-list-page-header p {
+        font-size: 11px;
+    }
+
+    .sf-company-add-button {
+        padding: 0 11px;
+    }
+
+    .sf-company-add-button span {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .sf-company-list-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sf-company-search-wrapper {
+        max-width: none;
+    }
+
+    .sf-company-refresh-button {
+        width: 100%;
+    }
+}

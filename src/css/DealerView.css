@@ -1,0 +1,566 @@
+/* =========================================
+   DEALER VIEW PAGE
+========================================= */
+
+.sf-dealer-view-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.sf-dealer-view-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+}
+
+.sf-dealer-view-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.sf-dealer-view-heading h1 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sf-dealer-view-heading p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.sf-dealer-view-back-button {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #4b5563;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.sf-dealer-view-back-button:hover {
+    background: #f3f4f6;
+
+    border-color: #d1d5db;
+
+    color: #111827;
+}
+
+.sf-dealer-view-back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.sf-dealer-view-edit-button {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 16px;
+
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.sf-dealer-view-edit-button:hover {
+    background: #1d4ed8;
+}
+
+.sf-dealer-view-edit-button svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* =========================================
+   PROFILE CARD
+========================================= */
+
+.sf-dealer-view-profile-card {
+    margin-bottom: 20px;
+
+    padding: 22px 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.sf-dealer-view-profile {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+}
+
+.sf-dealer-view-avatar {
+    width: 58px;
+    height: 58px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.sf-dealer-view-profile-info h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sf-dealer-view-profile-info span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   CONTENT GRID
+========================================= */
+
+.sf-dealer-view-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.sf-dealer-view-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
+}
+
+.sf-dealer-view-card-header {
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #eef0f3;
+}
+
+.sf-dealer-view-card-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sf-dealer-view-card-header p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   DETAILS
+========================================= */
+
+.sf-dealer-view-details {
+    padding: 4px 22px;
+}
+
+.sf-dealer-view-detail {
+    min-height: 74px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.sf-dealer-view-detail:last-child {
+    border-bottom: 0;
+}
+
+.sf-dealer-view-detail-icon {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.sf-dealer-view-detail-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.sf-dealer-view-detail>div:last-child {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sf-dealer-view-detail span {
+    color: #94a3b8;
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.sf-dealer-view-detail strong {
+    margin-top: 4px;
+
+    color: #1e293b;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   FLEET STATS
+========================================= */
+
+.sf-dealer-view-stats {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+
+    padding: 22px;
+}
+
+.sf-dealer-view-stat {
+    min-height: 90px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    border: 1px solid #eef2f7;
+    border-radius: 9px;
+
+    background: #fafbfc;
+}
+
+.sf-dealer-view-stat-icon {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.sf-dealer-view-stat-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.sf-dealer-view-stat>div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.sf-dealer-view-stat span {
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+.sf-dealer-view-stat strong {
+    margin-top: 4px;
+
+    color: #111827;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.sf-dealer-view-loading {
+    min-height: 300px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.sf-dealer-view-spinner {
+    width: 26px;
+    height: 26px;
+
+    border: 3px solid #e5e7eb;
+    border-top-color: #2563eb;
+
+    border-radius: 50%;
+
+    animation: sfDealerViewSpin 0.8s linear infinite;
+}
+
+@keyframes sfDealerViewSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.sf-dealer-view-error-card {
+    max-width: 500px;
+
+    margin: 50px auto;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.sf-dealer-view-error-icon {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    margin: 0 auto 14px;
+
+    border-radius: 50%;
+
+    background: #fef2f2;
+    color: #dc2626;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sf-dealer-view-error-card h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 16px;
+}
+
+.sf-dealer-view-error-card p {
+    margin: 8px 0 20px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+.sf-dealer-view-error-card button {
+    min-height: 38px;
+
+    padding: 0 15px;
+
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .sf-dealer-view-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .sf-dealer-view-page-header {
+        align-items: flex-start;
+    }
+
+    .sf-dealer-view-heading h1 {
+        font-size: 20px;
+    }
+
+    .sf-dealer-view-heading p {
+        font-size: 11px;
+    }
+
+    .sf-dealer-view-edit-button {
+        padding: 0 11px;
+    }
+
+    .sf-dealer-view-edit-button span {
+        display: none;
+    }
+
+    .sf-dealer-view-profile-card {
+        padding: 18px;
+    }
+
+    .sf-dealer-view-card-header {
+        padding: 18px;
+    }
+
+    .sf-dealer-view-details {
+        padding: 4px 18px;
+    }
+
+    .sf-dealer-view-stats {
+        padding: 18px;
+    }
+}
+
+
+@media (max-width: 430px) {
+
+    .sf-dealer-view-page-header {
+        gap: 10px;
+    }
+
+    .sf-dealer-view-heading {
+        gap: 9px;
+    }
+
+    .sf-dealer-view-back-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sf-dealer-view-avatar {
+        width: 50px;
+        height: 50px;
+    }
+
+    .sf-dealer-view-stats {
+        grid-template-columns: 1fr;
+    }
+}

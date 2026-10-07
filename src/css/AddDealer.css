@@ -1,0 +1,405 @@
+/* =========================================
+   ADD DEALER PAGE
+========================================= */
+
+.sf-add-dealer-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.sf-add-dealer-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.sf-add-dealer-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.sf-add-dealer-heading h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sf-add-dealer-heading p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.sf-add-dealer-back-button {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #4b5563;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.sf-add-dealer-back-button:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #111827;
+}
+
+.sf-add-dealer-back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* =========================================
+   FORM CARD
+========================================= */
+
+.sf-add-dealer-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   CARD HEADER
+========================================= */
+
+.sf-add-dealer-card-header {
+    padding: 20px 24px;
+
+    border-bottom: 1px solid #eef0f3;
+}
+
+.sf-add-dealer-card-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.sf-add-dealer-card-header p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.sf-add-dealer-card form {
+    padding: 24px;
+}
+
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.sf-add-dealer-form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+.sf-add-dealer-full-width {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================
+   FIELD
+========================================= */
+
+.sf-add-dealer-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.sf-add-dealer-field label {
+    margin-bottom: 8px;
+
+    color: #374151;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.sf-add-dealer-field label span {
+    margin-left: 3px;
+    color: #ef4444;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.sf-add-dealer-input-wrapper {
+    min-height: 44px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.sf-add-dealer-input-wrapper:focus-within {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.sf-add-dealer-input-wrapper > svg {
+    flex-shrink: 0;
+
+    width: 17px;
+    height: 17px;
+
+    margin-left: 13px;
+
+    color: #9ca3af;
+}
+
+.sf-add-dealer-input-wrapper input,
+.sf-add-dealer-input-wrapper textarea {
+    width: 100%;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.sf-add-dealer-input-wrapper input {
+    height: 42px;
+    padding: 0 13px 0 10px;
+}
+
+.sf-add-dealer-input-wrapper textarea {
+    min-height: 100px;
+
+    padding: 11px 13px 11px 10px;
+
+    resize: vertical;
+}
+
+.sf-add-dealer-input-wrapper input::placeholder,
+.sf-add-dealer-input-wrapper textarea::placeholder {
+    color: #9ca3af;
+}
+
+
+/* =========================================
+   TEXTAREA
+========================================= */
+
+.sf-add-dealer-textarea-wrapper {
+    align-items: flex-start;
+}
+
+.sf-add-dealer-textarea-wrapper > svg {
+    margin-top: 13px;
+}
+
+
+/* =========================================
+   ERROR / SUCCESS
+========================================= */
+
+.sf-add-dealer-error,
+.sf-add-dealer-success {
+    margin-bottom: 20px;
+
+    padding: 11px 14px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+}
+
+.sf-add-dealer-error {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.sf-add-dealer-success {
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.sf-add-dealer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 28px;
+    padding-top: 20px;
+
+    border-top: 1px solid #eef0f3;
+}
+
+.sf-add-dealer-cancel-button,
+.sf-add-dealer-save-button {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 18px;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.sf-add-dealer-cancel-button {
+    border: 1px solid #d1d5db;
+
+    background: #ffffff;
+    color: #374151;
+}
+
+.sf-add-dealer-cancel-button:hover {
+    background: #f9fafb;
+}
+
+.sf-add-dealer-save-button {
+    border: 1px solid #2563eb;
+
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.sf-add-dealer-save-button:hover {
+    background: #1d4ed8;
+}
+
+.sf-add-dealer-save-button svg {
+    width: 15px;
+    height: 15px;
+}
+
+.sf-add-dealer-cancel-button:disabled,
+.sf-add-dealer-save-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .sf-add-dealer-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sf-add-dealer-full-width {
+        grid-column: auto;
+    }
+
+    .sf-add-dealer-card form {
+        padding: 18px;
+    }
+
+    .sf-add-dealer-card-header {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .sf-add-dealer-heading h1 {
+        font-size: 20px;
+    }
+
+    .sf-add-dealer-heading p {
+        font-size: 11px;
+    }
+
+    .sf-add-dealer-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .sf-add-dealer-cancel-button,
+    .sf-add-dealer-save-button {
+        width: 100%;
+    }
+}

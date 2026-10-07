@@ -1,0 +1,514 @@
+.sf-subdealer-add-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.sf-subdealer-add-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+}
+
+.sf-subdealer-add-header-left {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.sf-subdealer-add-header h1 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.sf-subdealer-add-header p {
+    margin: 7px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.sf-subdealer-add-back-button {
+    width: 40px;
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.sf-subdealer-add-back-button:hover {
+    background: #f8fafc;
+
+    color: #334155;
+
+    border-color: #cbd5e1;
+}
+
+.sf-subdealer-add-back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.sf-subdealer-add-card {
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e5eaf2;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.sf-subdealer-add-card-header {
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 24px;
+
+    border-bottom: 1px solid #eef1f6;
+}
+
+.sf-subdealer-add-card-header h2 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.sf-subdealer-add-card-header span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.sf-subdealer-add-error {
+    margin: 20px 24px 0;
+
+    padding: 11px 13px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 8px;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.sf-subdealer-add-form {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 22px 20px;
+
+    padding: 24px;
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.sf-subdealer-add-field {
+    min-width: 0;
+}
+
+.sf-subdealer-add-field-full {
+    grid-column: 1 / -1;
+}
+
+.sf-subdealer-add-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #334155;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.sf-subdealer-add-field label span {
+    color: #dc2626;
+}
+
+
+/* =========================================================
+   INPUT WRAPPER
+========================================================= */
+
+.sf-subdealer-add-input-wrapper {
+    position: relative;
+
+    width: 100%;
+}
+
+.sf-subdealer-add-input-wrapper>svg {
+    position: absolute;
+
+    left: 13px;
+    top: 50%;
+
+    width: 16px;
+    height: 16px;
+
+    color: #94a3b8;
+
+    transform: translateY(-50%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.sf-subdealer-add-input-wrapper input,
+.sf-subdealer-add-input-wrapper select,
+.sf-subdealer-add-input-wrapper textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #0f172a;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.sf-subdealer-add-input-wrapper input,
+.sf-subdealer-add-input-wrapper select {
+    height: 42px;
+
+    padding: 0 13px 0 38px;
+}
+
+.sf-subdealer-add-input-wrapper textarea {
+    min-height: 105px;
+
+    resize: vertical;
+
+    padding: 12px 13px 12px 38px;
+
+    line-height: 1.5;
+}
+
+.sf-subdealer-add-input-wrapper input::placeholder,
+.sf-subdealer-add-input-wrapper textarea::placeholder {
+    color: #94a3b8;
+}
+
+.sf-subdealer-add-input-wrapper input:focus,
+.sf-subdealer-add-input-wrapper select:focus,
+.sf-subdealer-add-input-wrapper textarea:focus {
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.sf-subdealer-add-input-wrapper input:disabled,
+.sf-subdealer-add-input-wrapper select:disabled,
+.sf-subdealer-add-input-wrapper textarea:disabled {
+    background: #f8fafc;
+
+    color: #94a3b8;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.sf-subdealer-add-input-wrapper select {
+    cursor: pointer;
+
+    appearance: auto;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.sf-subdealer-add-textarea-wrapper>svg {
+    top: 18px;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.sf-subdealer-add-footer {
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding: 0 24px;
+
+    border-top: 1px solid #eef1f6;
+
+    background: #fcfdff;
+}
+
+
+/* =========================================================
+   CANCEL
+========================================================= */
+
+.sf-subdealer-add-cancel-button {
+    height: 40px;
+
+    padding: 0 16px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.sf-subdealer-add-cancel-button:hover {
+    background: #f8fafc;
+
+    color: #334155;
+
+    border-color: #cbd5e1;
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+.sf-subdealer-add-save-button {
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 17px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(37, 99, 235, 0.18);
+
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.sf-subdealer-add-save-button:hover {
+    background: #1d4ed8;
+
+    box-shadow:
+        0 5px 14px rgba(37, 99, 235, 0.2);
+
+    transform: translateY(-1px);
+}
+
+.sf-subdealer-add-save-button svg {
+    width: 15px;
+    height: 15px;
+}
+
+.sf-subdealer-add-save-button:disabled,
+.sf-subdealer-add-cancel-button:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .sf-subdealer-add-form {
+        grid-template-columns: 1fr;
+    }
+
+    .sf-subdealer-add-field-full {
+        grid-column: auto;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+    .sf-subdealer-add-page {
+        width: 100%;
+    }
+
+    .sf-subdealer-add-header {
+        margin-bottom: 18px;
+    }
+
+    .sf-subdealer-add-header-left {
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .sf-subdealer-add-header h1 {
+        font-size: 23px;
+    }
+
+    .sf-subdealer-add-header p {
+        font-size: 13px;
+    }
+
+    .sf-subdealer-add-back-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sf-subdealer-add-card-header {
+        padding: 0 15px;
+    }
+
+    .sf-subdealer-add-form {
+        padding: 18px 15px;
+
+        gap: 18px;
+    }
+
+    .sf-subdealer-add-footer {
+        padding: 12px 15px;
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+        gap: 8px;
+    }
+
+    .sf-subdealer-add-cancel-button,
+    .sf-subdealer-add-save-button {
+        width: 100%;
+    }
+}

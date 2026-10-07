@@ -1,0 +1,32 @@
+:root {
+  /* Layout */
+  --sf-sidebar-width: 250px;
+  --sf-header-height: 72px;
+
+  /* Brand */
+  --sf-primary: #2563eb;
+  --sf-primary-hover: #1d4ed8;
+
+  /* Backgrounds */
+  --sf-background: #f6f8fc;
+  --sf-surface: #ffffff;
+  --sf-surface-soft: #f8fafc;
+
+  /* Text */
+  --sf-text-primary: #0f172a;
+  --sf-text-secondary: #64748b;
+  --sf-text-muted: #94a3b8;
+
+  /* Borders */
+  --sf-border: #e5eaf2;
+
+  /* Shadows */
+  --sf-shadow-sm:
+    0 1px 3px rgba(15, 23, 42, 0.05);
+
+  --sf-shadow-md:
+    0 4px 12px rgba(15, 23, 42, 0.08);
+
+  --sf-shadow-lg:
+    0 10px 30px rgba(15, 23, 42, 0.08);
+}

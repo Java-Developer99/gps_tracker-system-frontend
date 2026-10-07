@@ -1,0 +1,488 @@
+/* =========================================
+   SUBDEALER VIEW PAGE
+========================================= */
+
+.sf-subdealer-view-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.sf-subdealer-view-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.sf-subdealer-view-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.sf-subdealer-view-heading h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sf-subdealer-view-heading p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.sf-subdealer-view-back-button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #4b5563;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.sf-subdealer-view-back-button:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #111827;
+}
+
+.sf-subdealer-view-back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.sf-subdealer-view-edit-button {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+    padding: 0 16px;
+
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.sf-subdealer-view-edit-button:hover {
+    background: #1d4ed8;
+}
+
+.sf-subdealer-view-edit-button svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* =========================================
+   PROFILE CARD
+========================================= */
+
+.sf-subdealer-view-profile-card {
+    margin-bottom: 20px;
+    padding: 22px 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.sf-subdealer-view-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sf-subdealer-view-avatar {
+    width: 58px;
+    height: 58px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.sf-subdealer-view-profile-info h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sf-subdealer-view-profile-info span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   CONTENT GRID
+========================================= */
+
+.sf-subdealer-view-grid {
+    display: grid;
+
+    grid-template-columns: repeat(
+        2,
+        minmax(0, 1fr)
+    );
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.sf-subdealer-view-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
+}
+
+.sf-subdealer-view-card-header {
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #eef0f3;
+}
+
+.sf-subdealer-view-card-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sf-subdealer-view-card-header p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   DETAILS
+========================================= */
+
+.sf-subdealer-view-details {
+    padding: 4px 22px;
+}
+
+.sf-subdealer-view-detail {
+    min-height: 74px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.sf-subdealer-view-detail:last-child {
+    border-bottom: 0;
+}
+
+.sf-subdealer-view-detail-icon {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.sf-subdealer-view-detail-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.sf-subdealer-view-detail > div:last-child {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sf-subdealer-view-detail span {
+    color: #94a3b8;
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.sf-subdealer-view-detail strong {
+    margin-top: 4px;
+
+    color: #1e293b;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.sf-subdealer-view-loading {
+    min-height: 300px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.sf-subdealer-view-spinner {
+    width: 26px;
+    height: 26px;
+
+    border: 3px solid #e5e7eb;
+    border-top-color: #2563eb;
+
+    border-radius: 50%;
+
+    animation:
+        sfSubDealerViewSpin
+        0.8s
+        linear
+        infinite;
+}
+
+@keyframes sfSubDealerViewSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.sf-subdealer-view-error-card {
+    max-width: 500px;
+
+    margin: 50px auto;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.sf-subdealer-view-error-icon {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    margin: 0 auto 14px;
+
+    border-radius: 50%;
+
+    background: #fef2f2;
+    color: #dc2626;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sf-subdealer-view-error-card h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 16px;
+}
+
+.sf-subdealer-view-error-card p {
+    margin: 8px 0 20px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+.sf-subdealer-view-error-card button {
+    min-height: 38px;
+
+    padding: 0 15px;
+
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .sf-subdealer-view-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .sf-subdealer-view-page-header {
+        align-items: flex-start;
+    }
+
+    .sf-subdealer-view-heading h1 {
+        font-size: 20px;
+    }
+
+    .sf-subdealer-view-heading p {
+        font-size: 11px;
+    }
+
+    .sf-subdealer-view-edit-button {
+        padding: 0 11px;
+    }
+
+    .sf-subdealer-view-edit-button span {
+        display: none;
+    }
+
+    .sf-subdealer-view-profile-card {
+        padding: 18px;
+    }
+
+    .sf-subdealer-view-card-header {
+        padding: 18px;
+    }
+
+    .sf-subdealer-view-details {
+        padding: 4px 18px;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .sf-subdealer-view-page-header {
+        gap: 10px;
+    }
+
+    .sf-subdealer-view-heading {
+        gap: 9px;
+    }
+
+    .sf-subdealer-view-back-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sf-subdealer-view-avatar {
+        width: 50px;
+        height: 50px;
+    }
+
+}

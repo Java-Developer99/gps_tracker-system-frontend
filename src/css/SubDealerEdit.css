@@ -1,0 +1,615 @@
+/* =========================================
+   SUBDEALER EDIT PAGE
+========================================= */
+
+.sf-subdealer-edit-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.sf-subdealer-edit-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.sf-subdealer-edit-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.sf-subdealer-edit-heading h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sf-subdealer-edit-heading p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.sf-subdealer-edit-back-button {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #4b5563;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.sf-subdealer-edit-back-button:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    color: #111827;
+}
+
+.sf-subdealer-edit-back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* =========================================
+   FORM CARD
+========================================= */
+
+.sf-subdealer-edit-form-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   CARD HEADER
+========================================= */
+
+.sf-subdealer-edit-card-header {
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #eef0f3;
+}
+
+.sf-subdealer-edit-card-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sf-subdealer-edit-card-header p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.sf-subdealer-edit-form {
+    padding: 24px 22px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+.sf-subdealer-edit-field {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.sf-subdealer-edit-field-full {
+    grid-column: 1 / -1;
+}
+
+.sf-subdealer-edit-field label {
+    color: #374151;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.sf-subdealer-edit-field label span {
+    margin-left: 3px;
+    color: #dc2626;
+}
+
+
+/* =========================================
+   INPUT WRAPPER
+========================================= */
+
+.sf-subdealer-edit-input-wrapper {
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.sf-subdealer-edit-input-wrapper:focus-within {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.08);
+}
+
+.sf-subdealer-edit-input-wrapper > svg {
+    width: 15px;
+    height: 15px;
+
+    flex-shrink: 0;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.sf-subdealer-edit-input-wrapper input,
+.sf-subdealer-edit-input-wrapper select,
+.sf-subdealer-edit-input-wrapper textarea {
+    width: 100%;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #1e293b;
+
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.sf-subdealer-edit-input-wrapper input,
+.sf-subdealer-edit-input-wrapper select {
+    height: 40px;
+}
+
+.sf-subdealer-edit-input-wrapper input::placeholder,
+.sf-subdealer-edit-input-wrapper textarea::placeholder {
+    color: #9ca3af;
+}
+
+.sf-subdealer-edit-input-wrapper select {
+    cursor: pointer;
+}
+
+.sf-subdealer-edit-input-wrapper textarea {
+    min-height: 90px;
+
+    padding: 11px 0;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   TEXTAREA
+========================================= */
+
+.sf-subdealer-edit-textarea-wrapper {
+    align-items: flex-start;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sf-subdealer-edit-textarea-wrapper > svg {
+    margin-top: 2px;
+}
+
+
+/* =========================================
+   DISABLED
+========================================= */
+
+.sf-subdealer-edit-input-wrapper input:disabled,
+.sf-subdealer-edit-input-wrapper select:disabled,
+.sf-subdealer-edit-input-wrapper textarea:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.sf-subdealer-edit-input-wrapper:has(
+    input:disabled
+),
+.sf-subdealer-edit-input-wrapper:has(
+    select:disabled
+),
+.sf-subdealer-edit-input-wrapper:has(
+    textarea:disabled
+) {
+    background: #f8fafc;
+}
+
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+.sf-subdealer-edit-message {
+    margin: 0 22px 20px;
+
+    padding: 11px 13px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.sf-subdealer-edit-error-message {
+    border: 1px solid #fecaca;
+
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.sf-subdealer-edit-success-message {
+    border: 1px solid #bbf7d0;
+
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+
+/* =========================================
+   FORM FOOTER
+========================================= */
+
+.sf-subdealer-edit-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding: 18px 22px;
+
+    background: #fafbfc;
+
+    border-top: 1px solid #eef0f3;
+}
+
+
+/* =========================================
+   CANCEL BUTTON
+========================================= */
+
+.sf-subdealer-edit-cancel-button {
+    min-height: 38px;
+
+    padding: 0 15px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #4b5563;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.sf-subdealer-edit-cancel-button:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+
+/* =========================================
+   SAVE BUTTON
+========================================= */
+
+.sf-subdealer-edit-save-button {
+    min-height: 38px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 16px;
+
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.sf-subdealer-edit-save-button:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.sf-subdealer-edit-save-button svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* =========================================
+   DISABLED BUTTONS
+========================================= */
+
+.sf-subdealer-edit-cancel-button:disabled,
+.sf-subdealer-edit-save-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.sf-subdealer-edit-loading {
+    min-height: 300px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.sf-subdealer-edit-spinner {
+    width: 26px;
+    height: 26px;
+
+    border: 3px solid #e5e7eb;
+    border-top-color: #2563eb;
+
+    border-radius: 50%;
+
+    animation:
+        sfSubDealerEditSpin
+        0.8s
+        linear
+        infinite;
+}
+
+@keyframes sfSubDealerEditSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================
+   ERROR CARD
+========================================= */
+
+.sf-subdealer-edit-error-card {
+    max-width: 500px;
+
+    margin: 50px auto;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.sf-subdealer-edit-error-icon {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    margin: 0 auto 14px;
+
+    border-radius: 50%;
+
+    background: #fef2f2;
+    color: #dc2626;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sf-subdealer-edit-error-card h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 16px;
+}
+
+.sf-subdealer-edit-error-card p {
+    margin: 8px 0 20px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+.sf-subdealer-edit-error-card button {
+    min-height: 38px;
+
+    padding: 0 15px;
+
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .sf-subdealer-edit-form {
+        grid-template-columns: 1fr;
+    }
+
+    .sf-subdealer-edit-field-full {
+        grid-column: auto;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .sf-subdealer-edit-page-header {
+        align-items: flex-start;
+    }
+
+    .sf-subdealer-edit-heading h1 {
+        font-size: 20px;
+    }
+
+    .sf-subdealer-edit-heading p {
+        font-size: 11px;
+    }
+
+    .sf-subdealer-edit-form {
+        padding: 20px 18px;
+    }
+
+    .sf-subdealer-edit-card-header {
+        padding: 18px;
+    }
+
+    .sf-subdealer-edit-form-footer {
+        padding: 16px 18px;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .sf-subdealer-edit-heading {
+        gap: 9px;
+    }
+
+    .sf-subdealer-edit-back-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sf-subdealer-edit-form-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .sf-subdealer-edit-cancel-button,
+    .sf-subdealer-edit-save-button {
+        width: 100%;
+    }
+
+}
