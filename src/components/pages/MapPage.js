@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function MapPage() {
   const [coords, setCoords] = useState({ lat: 19.2, lng: 72.9 });
-  const [vehicleType, setVehicleType] = useState("car");
+  const [vehicleType] = useState("car");
   const [speed, setSpeed] = useState(0);
   const [mileage, setMileage] = useState(0);
 

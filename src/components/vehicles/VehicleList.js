@@ -142,37 +142,37 @@ const VehicleList = () => {
         return `${number.toLocaleString("en-IN")} km`;
     };
 
-    const formatExpiryDate = (value) => {
-        if (!value) {
-            return "—";
-        }
+    // const formatExpiryDate = (value) => {
+    //     if (!value) {
+    //         return "—";
+    //     }
 
-        const date = new Date(value);
+    //     const date = new Date(value);
 
-        if (Number.isNaN(date.getTime())) {
-            return "—";
-        }
+    //     if (Number.isNaN(date.getTime())) {
+    //         return "—";
+    //     }
 
-        return date.toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-        });
-    };
+    //     return date.toLocaleDateString("en-IN", {
+    //         day: "2-digit",
+    //         month: "short",
+    //         year: "numeric",
+    //     });
+    // };
 
-    const isExpired = (value) => {
-        if (!value) {
-            return false;
-        }
+    // const isExpired = (value) => {
+    //     if (!value) {
+    //         return false;
+    //     }
 
-        const date = new Date(value);
+    //     const date = new Date(value);
 
-        if (Number.isNaN(date.getTime())) {
-            return false;
-        }
+    //     if (Number.isNaN(date.getTime())) {
+    //         return false;
+    //     }
 
-        return date < new Date();
-    };
+    //     return date < new Date();
+    // };
 
     if (loading) {
         return (
