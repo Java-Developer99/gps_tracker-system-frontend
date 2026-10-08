@@ -201,7 +201,7 @@ function Sidebar() {
             </div>
 
             <NavLink
-              to="/reports"
+              to="/report"
               onClick={closeMobile}
               className={({ isActive }) =>
                 `sf-nav-link ${isActive ? "active" : ""
