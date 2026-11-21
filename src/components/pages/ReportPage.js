@@ -16,7 +16,7 @@ function ReportPage() {
     try {
       setError("");
       const res = await axios.get(
-        "https://gpstrackersystem-production.up.railway.app/api/report",
+        "https://gpstrackersystem-production-3e30.up.railway.app/api/report",
         {
           params: {
             imei,

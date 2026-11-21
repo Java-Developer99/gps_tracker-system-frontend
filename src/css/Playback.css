@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
 
+
+
 .sf-playback-page {
   height: 100vh;
   width: 100%;
@@ -8,6 +10,7 @@
   background: #15151f;
   color: #f4f4f7;
   font-family: "Inter", system-ui, sans-serif;
+  padding: none;
 }
 
 .sf-playback-sidebar {
@@ -19,7 +22,7 @@
   overflow-y: auto;
   background: #171720;
   border-right: 1px solid #2d2d39;
-  z-index: 1000;
+  /* z-index: 1000; */
 }
 
 .sf-playback-brand {

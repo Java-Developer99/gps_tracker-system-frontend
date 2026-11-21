@@ -13,7 +13,7 @@
 
   max-width: 920px;
   margin: 0 auto;
-  padding: 48px 24px 80px;
+  padding: 24px 24px 80px;
   font-family: "Inter", system-ui, sans-serif;
   color: var(--ink);
 }
