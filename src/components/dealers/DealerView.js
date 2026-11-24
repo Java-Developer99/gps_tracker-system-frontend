@@ -15,11 +15,20 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { getDealerById } from "../../services/dealerService";
 import "../../css/DealerView.css";
+import { usePermission } from "../../context/PermissionContext";
 
 function DealerView() {
 
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+    
+    const canEditDealer =
+        !permissionsLoading && hasPermission("Dealer", "canEdit");
 
     const [dealer, setDealer] = useState(null);
 
@@ -78,7 +87,7 @@ function DealerView() {
 
 
     const handleEdit = () => {
-        navigate(`/dealers/edit/=${id}`);
+        navigate(`/dealers/edit/${id}`);
     };
 
 
@@ -222,17 +231,18 @@ function DealerView() {
                 </div>
 
 
-                <button
-                    className="sf-dealer-view-edit-button"
-                    onClick={handleEdit}
-                    type="button"
-                >
-                    <FiEdit2 />
-
-                    <span>
-                        Edit Dealer
-                    </span>
-                </button>
+                {canEditDealer && (
+    <button
+        className="sf-dealer-view-edit-button"
+        onClick={handleEdit}
+        type="button"
+    >
+        <FiEdit2 />
+        <span>
+            Edit Dealer
+        </span>
+    </button>
+)}
 
             </div>
 

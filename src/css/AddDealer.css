@@ -404,3 +404,144 @@
         width: 100%;
     }
 }
+
+
+/* =========================================
+   ACCESS DENIED PAGE
+========================================= */
+
+.sf-access-denied-page {
+    min-height: calc(100vh - 98px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(59, 130, 246, 0.07),
+            transparent 45%
+        ),
+        #f5f7fc;
+    box-sizing: border-box;
+}
+
+.sf-access-denied-card {
+    width: 100%;
+    max-width: 490px;
+    padding: 46px 42px 34px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e8edf5;
+    border-radius: 20px;
+    box-shadow:
+        0 12px 35px rgba(15, 23, 42, 0.06),
+        0 2px 8px rgba(15, 23, 42, 0.03);
+    box-sizing: border-box;
+    animation: sfAccessAppear 0.35s ease-out;
+}
+
+.sf-access-denied-icon {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    background: #fff1f2;
+    color: #e5484d;
+    font-size: 34px;
+}
+
+.sf-access-denied-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #dc454b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.sf-access-denied-card h2 {
+    margin: 0 0 13px;
+    color: #172033;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.7px;
+}
+
+.sf-access-denied-card p {
+    max-width: 370px;
+    margin: 0 auto;
+    color: #697586;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.sf-access-denied-divider {
+    height: 1px;
+    margin: 28px 0 24px;
+    background: #edf0f5;
+}
+
+.sf-access-denied-button {
+    min-height: 46px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.sf-access-denied-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.sf-access-denied-button svg {
+    font-size: 17px;
+}
+
+.sf-access-denied-footer {
+    display: block;
+    margin-top: 25px;
+    color: #a0a9b8;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+@keyframes sfAccessAppear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 576px) {
+    .sf-access-denied-page {
+        padding: 24px 16px;
+    }
+
+    .sf-access-denied-card {
+        padding: 36px 24px 28px;
+    }
+
+    .sf-access-denied-card h2 {
+        font-size: 24px;
+    }
+}

@@ -1,534 +1,438 @@
 import React, { useMemo, useState, useEffect } from "react";
 import {
-    FiPlus,
-    FiSearch,
-    FiRefreshCw,
-    FiMoreVertical,
-    FiEye,
-    FiEdit2,
-    FiTrash2,
-    FiPower,
-    FiUsers,
+  FiPlus,
+  FiSearch,
+  FiRefreshCw,
+  FiMoreVertical,
+  FiEye,
+  FiEdit2,
+  FiTrash2,
+  FiPower,
+  FiUsers,
 } from "react-icons/fi";
 
 import "../../css/DealerList.css";
 import { getDealers } from "../../services/dealerService";
 import { useNavigate } from "react-router-dom";
-
+import { usePermission } from "../../context/PermissionContext";
 
 function DealerList() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const { hasPermission, loading: permissionsLoading } = usePermission();
 
-    const [dealers, setDealers] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [statusFilter, setStatusFilter] = useState("All");
-    const [openMenuId, setOpenMenuId] = useState(null);
+  const canViewDealers =
+    !permissionsLoading && hasPermission("Dealer", "canView");
 
-    const [loading, setLoading] = useState(true);
-    const [refreshing, setRefreshing] = useState(false);
-    const [error, setError] = useState("");
+  const canAddDealers =
+    !permissionsLoading && hasPermission("Dealer", "canAdd");
 
-    const fetchDealers = async (showRefreshLoader = false) => {
+  const canEditDealers =
+    !permissionsLoading && hasPermission("Dealer", "canEdit");
 
-        try {
+  const canDeleteDealers =
+    !permissionsLoading && hasPermission("Dealer", "canDelete");
 
-            setError("");
+  const canShowActions = canViewDealers || canEditDealers || canDeleteDealers;
 
-            if (showRefreshLoader) {
-                setRefreshing(true);
-            } else {
-                setLoading(true);
-            }
+  const [dealers, setDealers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [openMenuId, setOpenMenuId] = useState(null);
 
-            const data = await getDealers();
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState("");
 
-            const normalizedDealers = Array.isArray(data)
-                ? data.map((dealer) => ({
-                    id: dealer._id,
+  const fetchDealers = async (showRefreshLoader = false) => {
+    try {
+      setError("");
 
-                    name: dealer.name || "",
-                    email: dealer.email || "",
-                    phone: dealer.contactNo || "",
-                    address: dealer.address || "",
+      if (showRefreshLoader) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
 
-                    subDealers: dealer.subDealers ?? null,
-                    vehicles: dealer.vehicles ?? null,
-                    status: dealer.status ?? null,
+      const data = await getDealers();
 
-                    createdAt: dealer.createdAt,
-                    updatedAt: dealer.updatedAt,
-                }))
-                : [];
+      const normalizedDealers = Array.isArray(data)
+        ? data.map((dealer) => ({
+            id: dealer._id,
 
-            setDealers(normalizedDealers);
+            name: dealer.name || "",
+            email: dealer.email || "",
+            phone: dealer.contactNo || "",
+            address: dealer.address || "",
 
-        } catch (err) {
+            subDealers: dealer.subDealers ?? null,
+            vehicles: dealer.vehicles ?? null,
+            status: dealer.status ?? null,
 
-            console.error("Error fetching dealers:", err);
+            createdAt: dealer.createdAt,
+            updatedAt: dealer.updatedAt,
+          }))
+        : [];
 
-            setError(
-                err.response?.data?.message ||
-                "Unable to load dealers. Please try again."
-            );
+      setDealers(normalizedDealers);
+    } catch (err) {
+      console.error("Error fetching dealers:", err);
 
-        } finally {
-
-            setLoading(false);
-            setRefreshing(false);
-
-        }
-    };
-
-    useEffect(() => {
-        fetchDealers();
-    }, []);
-
-    const filteredDealers = useMemo(() => {
-
-        const search = searchTerm.toLowerCase().trim();
-
-        return dealers.filter((dealer) => {
-
-            const matchesSearch =
-                !search ||
-                dealer.name?.toLowerCase().includes(search) ||
-                dealer.email?.toLowerCase().includes(search) ||
-                dealer.phone?.toLowerCase().includes(search) ||
-                dealer.address?.toLowerCase().includes(search);
-
-            const matchesStatus =
-                statusFilter === "All" ||
-                (dealer.status && dealer.status === statusFilter);
-
-            return matchesSearch && matchesStatus;
-
-        });
-
-    }, [dealers, searchTerm, statusFilter]);
-
-    const handleRefresh = () => {
-
-        setSearchTerm("");
-        setStatusFilter("All");
-        setOpenMenuId(null);
-        fetchDealers(true);
-    };
-
-    const handleView = (dealerId) => {
-        navigate(`/dealers/${dealerId}`);
-        setOpenMenuId(null);
-    };
-
-    const handleEdit = (dealerId) => {
-        navigate(`/dealers/edit/${dealerId}`);
-        setOpenMenuId(null);
-    };
-
-    const handleAddDealer = () => {
-        navigate("/dealers/add");
-    };
-
-    const handleToggleStatus = (dealerId) => {
-        console.log(
-            "Dealer status API will be implemented later:",
-            dealerId
-        );
-        setOpenMenuId(null);
-    };
-
-    const handleDelete = (dealerId) => {
-        console.log(
-            "Dealer delete API will be implemented later:",
-            dealerId
-        );
-        setOpenMenuId(null);
-    };
-
-    if (loading) {
-
-        return (
-            <div className="sf-dealer-page">
-                <div className="sf-dealer-page-header">
-                    <div>
-                        <h1>Dealers</h1>
-                        <p>
-                            Manage dealers and their fleet hierarchy.
-                        </p>
-                    </div>
-                </div>
-
-                <div className="sf-dealer-card">
-                    <div
-                        style={{
-                            padding: "40px",
-                            textAlign: "center",
-                        }}
-                    >
-                        Loading dealers...
-                    </div>
-                </div>
-            </div>
-        );
+      setError(
+        err.response?.data?.message ||
+          "Unable to load dealers. Please try again."
+      );
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
     }
+  };
 
+  useEffect(() => {
+    fetchDealers();
+  }, []);
+
+  const filteredDealers = useMemo(() => {
+    const search = searchTerm.toLowerCase().trim();
+
+    return dealers.filter((dealer) => {
+      const matchesSearch =
+        !search ||
+        dealer.name?.toLowerCase().includes(search) ||
+        dealer.email?.toLowerCase().includes(search) ||
+        dealer.phone?.toLowerCase().includes(search) ||
+        dealer.address?.toLowerCase().includes(search);
+
+      const matchesStatus =
+        statusFilter === "All" ||
+        (dealer.status && dealer.status === statusFilter);
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [dealers, searchTerm, statusFilter]);
+
+  const handleRefresh = () => {
+    setSearchTerm("");
+    setStatusFilter("All");
+    setOpenMenuId(null);
+    fetchDealers(true);
+  };
+
+  const handleView = (dealerId) => {
+    navigate(`/dealers/${dealerId}`);
+    setOpenMenuId(null);
+  };
+
+  const handleEdit = (dealerId) => {
+    navigate(`/dealers/edit/${dealerId}`);
+    setOpenMenuId(null);
+  };
+
+  const handleAddDealer = () => {
+    navigate("/dealers/add");
+  };
+
+  const handleToggleStatus = (dealerId) => {
+    console.log("Dealer status API will be implemented later:", dealerId);
+    setOpenMenuId(null);
+  };
+
+  const handleDelete = (dealerId) => {
+    console.log("Dealer delete API will be implemented later:", dealerId);
+    setOpenMenuId(null);
+  };
+
+  if (loading) {
     return (
+      <div className="sf-dealer-page">
+        <div className="sf-dealer-page-header">
+          <div>
+            <h1>Dealers</h1>
+            <p>Manage dealers and their fleet hierarchy.</p>
+          </div>
+        </div>
 
-        <div className="sf-dealer-page">
-            <div className="sf-dealer-page-header">
+        <div className="sf-dealer-card">
+          <div
+            style={{
+              padding: "40px",
+              textAlign: "center",
+            }}
+          >
+            Loading dealers...
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-                <div>
-                    <h1>
-                        Dealers
-                    </h1>
+  return (
+    <div className="sf-dealer-page">
+      <div className="sf-dealer-page-header">
+        <div>
+          <h1>Dealers</h1>
 
-                    <p>
-                        Manage dealers and their fleet hierarchy.
-                    </p>
-                </div>
+          <p>Manage dealers and their fleet hierarchy.</p>
+        </div>
 
-                <button
-                    className="sf-dealer-add-button"
-                    onClick={handleAddDealer}
-                >
-                    <FiPlus />
-                    <span>
-                        Add Dealer
-                    </span>
-                </button>
-            </div>
+        {canAddDealers && (
+          <button className="sf-dealer-add-button" onClick={handleAddDealer}>
+            <FiPlus />
+            <span>Add Dealer</span>
+          </button>
+        )}
+      </div>
 
-            {error && (
+      {error && (
+        <div
+          className="sf-dealer-error"
+          style={{
+            marginBottom: "16px",
+          }}
+        >
+          {error}
+        </div>
+      )}
 
-                <div
-                    className="sf-dealer-error"
-                    style={{
-                        marginBottom: "16px",
-                    }}
-                >
-                    {error}
-                </div>
+      <div className="sf-dealer-toolbar">
+        {/* SEARCH */}
 
-            )}
+        <div className="sf-dealer-search">
+          <FiSearch />
+          <input
+            type="text"
+            placeholder="Search dealers..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
 
-            <div className="sf-dealer-toolbar">
-                {/* SEARCH */}
+        <div className="sf-dealer-filter">
+          <label>Status</label>
 
-                <div className="sf-dealer-search">
-                    <FiSearch />
-                    <input
-                        type="text"
-                        placeholder="Search dealers..."
-                        value={searchTerm}
-                        onChange={(e) =>
-                            setSearchTerm(e.target.value)
-                        }
-                    />
-                </div>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="All">All</option>
 
-                <div className="sf-dealer-filter">
+            <option value="Active">Active</option>
 
-                    <label>
-                        Status
-                    </label>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
 
-                    <select
-                        value={statusFilter}
-                        onChange={(e) =>
-                            setStatusFilter(e.target.value)
-                        }
-                    >
-                        <option value="All">
-                            All
-                        </option>
+        {/* REFRESH */}
 
-                        <option value="Active">
-                            Active
-                        </option>
+        <button
+          className="sf-dealer-refresh-button"
+          onClick={handleRefresh}
+          title="Reset filters"
+          disabled={refreshing}
+        >
+          <FiRefreshCw className={refreshing ? "sf-refresh-spinning" : ""} />
 
-                        <option value="Inactive">
-                            Inactive
-                        </option>
-                    </select>
-                </div>
+          <span>Reset</span>
+        </button>
+      </div>
 
-                {/* REFRESH */}
+      <div className="sf-dealer-card">
+        {/* CARD HEADER */}
+        <div className="sf-dealer-card-header">
+          <div>
+            <h2>All Dealers</h2>
 
-                <button
-                    className="sf-dealer-refresh-button"
-                    onClick={handleRefresh}
-                    title="Reset filters"
-                    disabled={refreshing}
-                >
+            <span>
+              {filteredDealers.length} dealer
+              {filteredDealers.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+        </div>
 
-                    <FiRefreshCw
-                        className={
-                            refreshing
-                                ? "sf-refresh-spinning"
-                                : ""
-                        }
-                    />
+        {filteredDealers.length > 0 ? (
+          <div className="sf-dealer-table-wrapper">
+            <table className="sf-dealer-table">
+              <thead>
+                <tr>
+                  <th>Dealer</th>
 
-                    <span>
-                        Reset
-                    </span>
-                </button>
-            </div>
+                  <th>Contact</th>
 
-            <div className="sf-dealer-card">
-                {/* CARD HEADER */}
-                <div className="sf-dealer-card-header">
+                  <th>SubDealers</th>
 
-                    <div>
-                        <h2>
-                            All Dealers
-                        </h2>
+                  <th>Vehicles</th>
 
-                        <span>
-                            {filteredDealers.length} dealer
-                            {filteredDealers.length !== 1
-                                ? "s"
-                                : ""}
-                        </span>
-                    </div>
-                </div>
+                  <th>Status</th>
 
-                {filteredDealers.length > 0 ? (
+                  <th></th>
+                </tr>
+              </thead>
 
-                    <div className="sf-dealer-table-wrapper">
-                        <table className="sf-dealer-table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Dealer
-                                    </th>
+              <tbody>
+                {filteredDealers.map((dealer, index) => (
+                  <tr
+                    key={dealer.id}
+                    className={
+                      openMenuId === dealer.id &&
+                      index >= filteredDealers.length - 1
+                        ? "sf-dealer-menu-up"
+                        : ""
+                    }
+                  >
+                    <td>
+                      <div className="sf-dealer-identity">
+                        <div className="sf-dealer-avatar">
+                          {dealer.name
+                            ? dealer.name.charAt(0).toUpperCase()
+                            : "D"}
+                        </div>
 
-                                    <th>
-                                        Contact
-                                    </th>
+                        <div>
+                          <strong>{dealer.name || "—"}</strong>
+                          <span>{dealer.email || "—"}</span>
+                        </div>
+                      </div>
+                    </td>
 
-                                    <th>
-                                        SubDealers
-                                    </th>
-
-                                    <th>
-                                        Vehicles
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th></th>
-
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                {filteredDealers.map((dealer,index) => (
-
-                                    <tr
-                                        key={dealer.id}
-                                        className={
-                                            openMenuId === dealer.id &&
-                                                index >= filteredDealers.length - 1
-                                                ? "sf-dealer-menu-up"
-                                                : ""
-                                        }
-                                    >
-
-                                        <td>
-                                            <div className="sf-dealer-identity">
-                                                <div className="sf-dealer-avatar">
-                                                    {dealer.name
-                                                        ? dealer.name
-                                                            .charAt(0)
-                                                            .toUpperCase()
-                                                        : "D"}
-                                                </div>
-
-                                                <div>
-                                                    <strong>
-                                                        {dealer.name || "—"}
-                                                    </strong>
-                                                    <span>
-                                                        {dealer.email || "—"}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        {/* =========================
+                    {/* =========================
                                             CONTACT
                                         ========================== */}
 
-                                        <td>
-                                            <div className="sf-dealer-contact">
-                                                {dealer.phone || "—"}
-                                            </div>
-                                        </td>
+                    <td>
+                      <div className="sf-dealer-contact">
+                        {dealer.phone || "—"}
+                      </div>
+                    </td>
 
-                                        {/* =========================
+                    {/* =========================
                                             SUB DEALERS
                                         ========================== */}
 
-                                        <td>
-                                            <div className="sf-dealer-count">
-                                                <FiUsers />
-                                                <span>
-                                                    {dealer.subDealers ?? "—"}
-                                                </span>
-                                            </div>
-                                        </td>
+                    <td>
+                      <div className="sf-dealer-count">
+                        <FiUsers />
+                        <span>{dealer.subDealers ?? "—"}</span>
+                      </div>
+                    </td>
 
-                                        {/* =========================
+                    {/* =========================
                                             VEHICLES
                                         ========================== */}
 
-                                        <td>
-                                            <strong className="sf-dealer-vehicle-count">
-                                                {dealer.vehicles ?? "—"}
-                                            </strong>
-                                        </td>
+                    <td>
+                      <strong className="sf-dealer-vehicle-count">
+                        {dealer.vehicles ?? "—"}
+                      </strong>
+                    </td>
 
-                                        {/* =========================
+                    {/* =========================
                                             STATUS
                                         ========================== */}
-                                        <td>
-                                            {dealer.status ? (
-                                                <span
-                                                    className={`sf-dealer-status ${dealer.status === "Active"
-                                                        ? "active"
-                                                        : "inactive"
-                                                        }`}
-                                                >
-                                                    <span className="sf-status-dot" />
-                                                    {dealer.status}
-                                                </span>
-                                            ) : (
-                                                <span className="sf-dealer-status">
-                                                    <span className="sf-status-dot" />
-                                                    —
-                                                </span>
-                                            )}
-                                        </td>
+                    <td>
+                      {dealer.status ? (
+                        <span
+                          className={`sf-dealer-status ${
+                            dealer.status === "Active" ? "active" : "inactive"
+                          }`}
+                        >
+                          <span className="sf-status-dot" />
+                          {dealer.status}
+                        </span>
+                      ) : (
+                        <span className="sf-dealer-status">
+                          <span className="sf-status-dot" />—
+                        </span>
+                      )}
+                    </td>
 
-                                        {/* =========================
+                    {/* =========================
                                             ACTIONS
                                         ========================== */}
 
-                                        <td className="sf-dealer-actions-cell">
+                    <td className="sf-dealer-actions-cell">
+                      {canShowActions && (
+                        <button
+                          className="sf-dealer-menu-button"
+                          onClick={() =>
+                            setOpenMenuId(
+                              openMenuId === dealer.id ? null : dealer.id
+                            )
+                          }
+                          aria-label={`Actions for ${dealer.name}`}
+                        >
+                          <FiMoreVertical />
+                        </button>
+                      )}
 
-                                            <button
-                                                className="sf-dealer-menu-button"
-                                                onClick={() =>
-                                                    setOpenMenuId(
-                                                        openMenuId === dealer.id
-                                                            ? null
-                                                            : dealer.id
-                                                    )
-                                                }
-                                                aria-label={`Actions for ${dealer.name}`}
-                                            >
-                                                <FiMoreVertical />
-                                            </button>
+                      {openMenuId === dealer.id && canShowActions && (
+                        <div className="sf-dealer-action-menu">
+                          {/* VIEW */}
+                          {canViewDealers && (
+                            <button onClick={() => handleView(dealer.id)}>
+                              <FiEye />
+                              <span>View</span>
+                            </button>
+                          )}
 
-                                            {openMenuId === dealer.id && (
-                                                <div className="sf-dealer-action-menu">
-                                                    {/* VIEW */}
-                                                    <button
-                                                        onClick={() =>
-                                                            handleView(
-                                                                dealer.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <FiEye />
-                                                        <span>
-                                                            View
-                                                        </span>
-                                                    </button>
+                          {/* EDIT */}
+                          {canEditDealers && (
+                            <button onClick={() => handleEdit(dealer.id)}>
+                              <FiEdit2 />
+                              <span>Edit</span>
+                            </button>
+                          )}
 
-                                                    {/* EDIT */}
-                                                    <button
-                                                        onClick={() =>
-                                                            handleEdit(
-                                                                dealer.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <FiEdit2 />
-                                                        <span>
-                                                            Edit
-                                                        </span>
-                                                    </button>
+                          {/* STATUS */}
+                          {canEditDealers && (
+                            <button
+                              onClick={() => handleToggleStatus(dealer.id)}
+                              title="Status management will be connected later"
+                            >
+                              <FiPower />
+                              <span>
+                                {dealer.status === "Active"
+                                  ? "Deactivate"
+                                  : "Activate"}
+                              </span>
+                            </button>
+                          )}
 
-                                                    {/* STATUS */}
-                                                    <button
-                                                        onClick={() =>
-                                                            handleToggleStatus(
-                                                                dealer.id
-                                                            )
-                                                        }
-                                                        title="Status management will be connected later"
-                                                    >
-                                                        <FiPower />
-                                                        <span>
-                                                            {dealer.status === "Active"
-                                                                ? "Deactivate"
-                                                                : "Activate"}
-                                                        </span>
-                                                    </button>
-
-                                                    {/* DELETE */}
-
-                                                    <button
-                                                        className="danger"
-                                                        onClick={() =>
-                                                            handleDelete(
-                                                                dealer.id
-                                                            )
-                                                        }
-                                                        title="Delete API will be connected later"
-                                                    >
-                                                        <FiTrash2 />
-
-                                                        <span>
-                                                            Delete
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                ) : (
-
-                    /* =================================================
+                          {/* DELETE */}
+                          {canDeleteDealers && (
+                            <button
+                              className="danger"
+                              onClick={() => handleDelete(dealer.id)}
+                              title="Delete API will be connected later"
+                            >
+                              <FiTrash2 />
+                              <span>Delete</span>
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          /* =================================================
                         EMPTY STATE
                     ================================================= */
 
-                    <div className="sf-dealer-empty">
-                        <div className="sf-dealer-empty-icon">
-                            <FiUsers />
-                        </div>
-
-                        <h3>
-                            No dealers found
-                        </h3>
-
-                        <p>
-                            Try changing your search or filter.
-                        </p>
-                    </div>
-                )}
+          <div className="sf-dealer-empty">
+            <div className="sf-dealer-empty-icon">
+              <FiUsers />
             </div>
-        </div>
-    );
+
+            <h3>No dealers found</h3>
+
+            <p>Try changing your search or filter.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 export default DealerList;

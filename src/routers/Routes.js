@@ -28,55 +28,65 @@ import SimList from "../components/sim/SimList";
 import SimAdd from "../components/sim/SimAdd";
 import SimEdit from "../components/sim/SimEdit";
 import SimView from "../components/sim/SimView";
+import Login from "../components/auth/Login";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 
-function AppRoutes(){
 
-    return(
-        <Routes>
-            <Route element={<AppShell/>}>
-            <Route path="/dashboard" element={<Dashboard/>}/>
-            <Route path="/report" element={<ReportPage/>}/>
-            <Route path="/live" element={<MapPage/>}/>
-            <Route path="/playback" element={<Playback/>}/>
-
+function AppRoutes() {
+    return (
+      <Routes>
+        {/* Public route */}
+        <Route path="/login" element={<Login />} />
+  
+        {/* Protected application routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppShell />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/report" element={<ReportPage />} />
+            <Route path="/live" element={<MapPage />} />
+            <Route path="/playback" element={<Playback />} />
+  
             {/* Dealer */}
-            <Route path="/dealers" element={<DealerList/>}/>
-            <Route path="/dealers/add" element={<AddDealer/>}/>
-            <Route path="/dealers/:id" element={<DealerView/>}/>
-            <Route path="/dealers/edit/:id" element={<EditDealer/>}/>
-
-            {/* subdealer */}
-            <Route path="/subDealers" element={<SubDealerList/>}/>
-            <Route path="/subDealer/add" element={<SubDealerAdd/>}/>
-            <Route path="/subDealer/:id" element={<SubDealerView/>}/>
-            <Route path="/subDealer/edit/:id" element={<SubDealerEdit/>}/>
-
-            {/* company */}
-            <Route path="/companies" element={<CompanyList/>}/>
-            <Route path="/companies/add" element={<CompanyAdd/>}/>
-            <Route path="/companies/edit/:id" element={<CompanyEdit/>}/>
-            <Route path="/companies/:id" element={<CompanyView/>}/>
-
-            {/* branch */}
-            <Route path="/branches" element={<BranchList/>}/>
-            <Route path="/branches/add" element={<BranchAdd/>}/>
-            <Route path="/branches/edit/:id" element={<BranchEdit/>}/>
-            <Route path="/branches/:id" element={<BranchView/>}/> 
-
-            {/* vehicle */}
-            <Route path="vehicles" element={<VehicleList/>}/>
-            <Route path="/vehicles/add" element={<VehicleAdd/>}/>
-            <Route path="/vehicles/edit/:id" element={<VehicleEdit/>}/>
-            <Route path="/vehicles/:id" element={<VehicleView/>}/>
-
-            {/* Sims */}
-            <Route path="/sims" element={<SimList/>}/>
-            <Route path="/sims/add" element={<SimAdd/>}/>
-            <Route path="/sims/edit/:id" element={<SimEdit/>}/>
-            <Route path="/sims/:id" element={<SimView/>}/>
-            </Route>
-            <Route path="/" element={<Navigate to="/dashboard" replace/>}/>
-        </Routes>
-    )
-}
+            <Route path="/dealers" element={<DealerList />} />
+            <Route path="/dealers/add" element={<AddDealer />} />
+            <Route path="/dealers/:id" element={<DealerView />} />
+            <Route path="/dealers/edit/:id" element={<EditDealer />} />
+  
+            {/* SubDealer */}
+            <Route path="/subDealers" element={<SubDealerList />} />
+            <Route path="/subDealer/add" element={<SubDealerAdd />} />
+            <Route path="/subDealer/:id" element={<SubDealerView />} />
+            <Route path="/subDealer/edit/:id" element={<SubDealerEdit />} />
+  
+            {/* Company */}
+            <Route path="/companies" element={<CompanyList />} />
+            <Route path="/companies/add" element={<CompanyAdd />} />
+            <Route path="/companies/edit/:id" element={<CompanyEdit />} />
+            <Route path="/companies/:id" element={<CompanyView />} />
+  
+            {/* Branch */}
+            <Route path="/branches" element={<BranchList />} />
+            <Route path="/branches/add" element={<BranchAdd />} />
+            <Route path="/branches/edit/:id" element={<BranchEdit />} />
+            <Route path="/branches/:id" element={<BranchView />} />
+  
+            {/* Vehicle */}
+            <Route path="/vehicles" element={<VehicleList />} />
+            <Route path="/vehicles/add" element={<VehicleAdd />} />
+            <Route path="/vehicles/edit/:id" element={<VehicleEdit />} />
+            <Route path="/vehicles/:id" element={<VehicleView />} />
+  
+            {/* SIM */}
+            <Route path="/sims" element={<SimList />} />
+            <Route path="/sims/add" element={<SimAdd />} />
+            <Route path="/sims/edit/:id" element={<SimEdit />} />
+            <Route path="/sims/:id" element={<SimView />} />
+          </Route>
+        </Route>
+  
+        {/* Default route */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+      </Routes>
+    );
+  }
 export default AppRoutes;
