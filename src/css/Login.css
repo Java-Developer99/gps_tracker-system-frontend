@@ -1,0 +1,348 @@
+.sf-login-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(420px, 0.95fr) minmax(420px, 1.05fr);
+    background: #ffffff;
+  }
+  
+  .sf-login-panel {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 34px clamp(28px, 6vw, 88px) 24px;
+  }
+  
+  .sf-login-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .sf-login-brand-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 20px;
+  }
+  
+  .sf-login-brand div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .sf-login-brand strong {
+    color: #0f172a;
+    font-size: 17px;
+  }
+  
+  .sf-login-brand span {
+    color: #64748b;
+    font-size: 11px;
+  }
+  
+  .sf-login-content {
+    width: 100%;
+    max-width: 410px;
+    margin: auto;
+    padding: 56px 0;
+  }
+  
+  .sf-login-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 26px;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 19px;
+  }
+  
+  .sf-login-eyebrow {
+    margin: 0 0 9px;
+    color: #2563eb;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+  }
+  
+  .sf-login-content h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: clamp(27px, 3vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+  }
+  
+  .sf-login-description {
+    margin: 12px 0 32px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  
+  .sf-login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sf-login-form label {
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .sf-login-form input {
+    width: 100%;
+    height: 47px;
+    padding: 0 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 12px;
+    box-sizing: border-box;
+  }
+  
+  .sf-login-form input::placeholder {
+    color: #a0aabc;
+  }
+  
+  .sf-login-form input:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+  }
+  
+  .sf-login-password-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 21px;
+  }
+  
+  .sf-login-password-wrap {
+    position: relative;
+  }
+  
+  .sf-login-password-wrap input {
+    padding-right: 46px;
+  }
+  
+  .sf-login-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #64748b;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .sf-login-password-toggle:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+  
+  .sf-login-error {
+    margin-top: 15px;
+    padding: 11px 12px;
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  
+  .sf-login-submit {
+    width: 100%;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 24px;
+    border: 0;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .sf-login-submit:hover:not(:disabled) {
+    background: #1d4ed8;
+  }
+  
+  .sf-login-submit:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+  
+  .sf-login-footer {
+    margin: 22px 0 0;
+    color: #94a3b8;
+    font-size: 11px;
+    text-align: center;
+  }
+  
+  .sf-login-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: #94a3b8;
+    font-size: 10px;
+  }
+  
+  .sf-login-aside {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 70px clamp(36px, 7vw, 100px);
+    background:
+      radial-gradient(circle at 85% 15%, rgba(96, 165, 250, 0.20), transparent 32%),
+      linear-gradient(145deg, #10264b 0%, #163b70 54%, #1d4e89 100%);
+    color: #ffffff;
+    box-sizing: border-box;
+  }
+  
+  .sf-login-aside-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 470px;
+    margin: auto;
+  }
+  
+  .sf-login-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 28px;
+    color: #bfdbfe;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+  
+  .sf-login-status span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #60a5fa;
+  }
+  
+  .sf-login-aside h2 {
+    max-width: 440px;
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(34px, 4.2vw, 52px);
+    line-height: 1.12;
+    letter-spacing: -0.045em;
+  }
+  
+  .sf-login-aside-content > p {
+    max-width: 410px;
+    margin: 20px 0 42px;
+    color: #c4d5eb;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  
+  .sf-login-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+  }
+  
+  .sf-login-feature-list > div {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .sf-login-feature-mark {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    border: 1px solid rgba(191, 219, 254, 0.28);
+    border-radius: 8px;
+    color: #bfdbfe;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  
+  .sf-login-feature-list strong,
+  .sf-login-feature-list small {
+    display: block;
+  }
+  
+  .sf-login-feature-list strong {
+    margin: 1px 0 5px;
+    color: #ffffff;
+    font-size: 12px;
+  }
+  
+  .sf-login-feature-list small {
+    color: #b5c9e2;
+    font-size: 11px;
+  }
+  
+  .sf-login-aside-caption {
+    position: absolute;
+    right: 36px;
+    bottom: 28px;
+    color: #9db7d8;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+  }
+  
+  @media (max-width: 900px) {
+    .sf-login-page {
+      grid-template-columns: 1fr;
+    }
+  
+    .sf-login-panel {
+      min-height: 100vh;
+    }
+  
+    .sf-login-aside {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .sf-login-panel {
+      padding: 25px 22px 20px;
+    }
+  
+    .sf-login-content {
+      padding: 42px 0;
+    }
+  
+    .sf-login-bottom {
+      flex-direction: column;
+      align-items: center;
+    }
+  }

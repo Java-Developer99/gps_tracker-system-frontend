@@ -6,15 +6,25 @@ import {
     FiMail,
     FiPhone,
     FiMapPin,
+    FiShield,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import { addDealer } from "../../services/dealerService";
 import "../../css/AddDealer.css";
+import { usePermission } from "../../context/PermissionContext";
 
 function AddDealer() {
 
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+    
+    const canAddDealer =
+        !permissionsLoading && hasPermission("Dealer", "canAdd");
 
     const [formData, setFormData] = useState({
         name: "",
@@ -40,6 +50,10 @@ function AddDealer() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!canAddDealer) {
+            setError("You don't have permission to add dealers.");
+            return;
+        }
 
         setError("");
         setSuccess("");
@@ -101,6 +115,58 @@ function AddDealer() {
     const handleCancel = () => {
         navigate("/dealers");
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-add-dealer-page">
+                <div className="sf-add-dealer-loading">
+                    <div className="sf-add-dealer-spinner" />
+                    <span>Checking permissions...</span>
+                </div>
+            </div>
+        );
+    }
+    
+    if (!canAddDealer) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+    
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+    
+                    <span className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </span>
+    
+                    <h2>Access Denied</h2>
+    
+                    <p>
+                        You don't have permission to create a new dealer.
+                        Please contact your administrator if you believe
+                        you should have access to this feature.
+                    </p>
+    
+                    <div className="sf-access-denied-divider"></div>
+    
+                    <button
+                        type="button"
+                        className="sf-access-denied-button"
+                        onClick={() => navigate("/dealers")}
+                    >
+                        <FiArrowLeft />
+                        <span>Back to Dealers</span>
+                    </button>
+    
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+    
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="sf-add-dealer-page">
