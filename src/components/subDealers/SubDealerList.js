@@ -13,13 +13,40 @@ import {
 } from "react-icons/fi";
 
 import "../../css/SubDealerList.css";
-import { getSubDealers } from "../../services/subDealerService";
+import { getSubDealers, updateSubDealerStatus } from "../../services/subDealerService";
 import { useNavigate } from "react-router-dom";
+import { usePermission } from "../../context/PermissionContext";
 
 
 function SubDealerList() {
 
     const navigate = useNavigate();
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewSubDealers =
+        !permissionsLoading && hasPermission("SubDealer", "canView");
+
+    const canAddSubDealers =
+        !permissionsLoading && hasPermission("SubDealer", "canAdd");
+
+    const canEditSubDealers =
+        !permissionsLoading && hasPermission("SubDealer", "canEdit");
+
+    const canDeleteSubDealers =
+        !permissionsLoading && hasPermission("SubDealer", "canDelete");
+
+    const canShowActions =
+        canViewSubDealers ||
+        canEditSubDealers ||
+        canDeleteSubDealers;
+
+    const isWebMaster = localStorage.getItem("role") === "WebMaster";
+
+    const canManageSubDealerStatus =
+        isWebMaster && canEditSubDealers;
 
     const [subDealers, setSubDealers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +55,7 @@ function SubDealerList() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState("");
+    const [updatingStatusId, setUpdatingStatusId] = useState(null);
 
 
     const fetchSubDealers = async (showRefreshLoader = false) => {
@@ -55,7 +83,7 @@ function SubDealerList() {
 
                     dealerId: subDealer.dealerId?._id || null,
                     dealerName: subDealer.dealerId?.name || "",
-
+                    status: subDealer.status || "inactive",
                     createdAt: subDealer.createdAt,
                     updatedAt: subDealer.updatedAt,
                 }))
@@ -130,12 +158,45 @@ function SubDealerList() {
         navigate("/subDealer/add");
     };
 
-    const handleToggleStatus = (subDealerId) => {
-        console.log(
-            "SubDealer status API will be implemented later:",
-            subDealerId
+    const handleToggleStatus = async (subDealer) => {
+        if (!canManageSubDealerStatus || updatingStatusId) {
+            return;
+        }
+
+        const newStatus =
+            subDealer.status === "active" ? "inactive" : "active";
+
+        const actionText =
+            newStatus === "active" ? "activate" : "deactivate";
+
+        const confirmed = window.confirm(
+            `Are you sure you want to ${actionText} ${subDealer.name}?`
         );
-        setOpenMenuId(null);
+
+        if (!confirmed) {
+            setOpenMenuId(null);
+            return;
+        }
+
+        try {
+            setUpdatingStatusId(subDealer.id);
+            setError("");
+            setOpenMenuId(null);
+
+            await updateSubDealerStatus(subDealer.id, newStatus);
+
+            await fetchSubDealers(true);
+
+        } catch (err) {
+            console.error("Error updating SubDealer status:", err);
+
+            setError(
+                err.response?.data?.message ||
+                "Unable to update SubDealer status. Please try again."
+            );
+        } finally {
+            setUpdatingStatusId(null);
+        }
     };
 
     const handleDelete = (subDealerId) => {
@@ -145,6 +206,31 @@ function SubDealerList() {
         );
         setOpenMenuId(null);
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-subdealer-page">
+                <div className="sf-subdealer-card">
+                    <div style={{ padding: "40px", textAlign: "center" }}>
+                        Checking permissions...
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewSubDealers) {
+        return (
+            <div className="sf-subdealer-page">
+                <div className="sf-subdealer-card">
+                    <div style={{ padding: "40px", textAlign: "center" }}>
+                        <h2>Access Denied</h2>
+                        <p>You don't have permission to view SubDealers.</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     if (loading) {
         return (
@@ -197,18 +283,15 @@ function SubDealerList() {
                 </div>
 
 
-                <button
-                    className="sf-subdealer-add-button"
-                    onClick={handleAddSubDealer}
-                >
-
-                    <FiPlus />
-
-                    <span>
-                        Add SubDealer
-                    </span>
-
-                </button>
+                {canAddSubDealers && (
+                    <button
+                        className="sf-subdealer-add-button"
+                        onClick={handleAddSubDealer}
+                    >
+                        <FiPlus />
+                        <span>Add SubDealer</span>
+                    </button>
+                )}
 
             </div>
 
@@ -333,6 +416,8 @@ function SubDealerList() {
                                         Email
                                     </th>
 
+                                    <th>Status</th>
+
                                     <th>
                                         Address
                                     </th>
@@ -439,6 +524,21 @@ function SubDealerList() {
 
                                             </td>
 
+                                            <td>
+                                                <span
+                                                    className={`sf-dealer-status-badge ${subDealer.status?.toLowerCase() === "active"
+                                                            ? "active"
+                                                            : "inactive"
+                                                        }`}
+                                                >
+                                                    <span className="sf-dealer-status-dot"></span>
+
+                                                    {subDealer.status?.toLowerCase() === "active"
+                                                        ? "Active"
+                                                        : "Inactive"}
+                                                </span>
+                                            </td>
+
 
                                             {/* =========================
                                                 ADDRESS
@@ -484,81 +584,59 @@ function SubDealerList() {
 
                                                         {/* VIEW */}
 
-                                                        <button
-                                                            onClick={() =>
-                                                                handleView(
-                                                                    subDealer.id
-                                                                )
-                                                            }
-                                                        >
-
-                                                            <FiEye />
-
-                                                            <span>
-                                                                View
-                                                            </span>
-
-                                                        </button>
+                                                        {canViewSubDealers && (
+                                                            <button
+                                                                onClick={() => handleView(subDealer.id)}
+                                                            >
+                                                                <FiEye />
+                                                                <span>View</span>
+                                                            </button>
+                                                        )}
 
 
                                                         {/* EDIT */}
 
-                                                        <button
-                                                            onClick={() =>
-                                                                handleEdit(
-                                                                    subDealer.id
-                                                                )
-                                                            }
-                                                        >
-
-                                                            <FiEdit2 />
-
-                                                            <span>
-                                                                Edit
-                                                            </span>
-
-                                                        </button>
+                                                        {canEditSubDealers && (
+                                                            <button
+                                                                onClick={() => handleEdit(subDealer.id)}
+                                                            >
+                                                                <FiEdit2 />
+                                                                <span>Edit</span>
+                                                            </button>
+                                                        )}
 
 
                                                         {/* STATUS */}
 
-                                                        <button
-                                                            onClick={() =>
-                                                                handleToggleStatus(
-                                                                    subDealer.id
-                                                                )
-                                                            }
-                                                            title="Status management will be connected later"
-                                                        >
+                                                        {canManageSubDealerStatus && (
+                                                            <button
+                                                                onClick={() => handleToggleStatus(subDealer)}
+                                                                disabled={updatingStatusId === subDealer.id}
+                                                            >
+                                                                <FiPower />
 
-                                                            <FiPower />
-
-                                                            <span>
-                                                                Activate
-                                                            </span>
-
-                                                        </button>
+                                                                <span>
+                                                                    {updatingStatusId === subDealer.id
+                                                                        ? "Updating..."
+                                                                        : subDealer.status === "active"
+                                                                            ? "Deactivate"
+                                                                            : "Activate"}
+                                                                </span>
+                                                            </button>
+                                                        )}
 
 
                                                         {/* DELETE */}
 
-                                                        <button
-                                                            className="danger"
-                                                            onClick={() =>
-                                                                handleDelete(
-                                                                    subDealer.id
-                                                                )
-                                                            }
-                                                            title="Delete API will be connected later"
-                                                        >
-
-                                                            <FiTrash2 />
-
-                                                            <span>
-                                                                Delete
-                                                            </span>
-
-                                                        </button>
+                                                        {canDeleteSubDealers && (
+                                                            <button
+                                                                className="danger"
+                                                                onClick={() => handleDelete(subDealer.id)}
+                                                            >
+                                                                <FiTrash2 />
+                                                                <span>Delete</span>
+                                                            </button>
+                                                        )}
 
                                                     </div>
 

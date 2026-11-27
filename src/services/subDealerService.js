@@ -19,3 +19,12 @@ export const updateSubDealer = async (id, subDealerData) => {
   const response = await api.put(`/api/subdealer/edit/${id}`, subDealerData);
   return response.data;
 };
+
+export const updateSubDealerStatus = async (id, status) => {
+  const response = await api.patch(
+    `/api/subdealer/${id}/status`,
+    { status }
+  );
+
+  return response.data;
+};

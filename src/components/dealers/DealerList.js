@@ -12,12 +12,14 @@ import {
 } from "react-icons/fi";
 
 import "../../css/DealerList.css";
-import { getDealers } from "../../services/dealerService";
+import { getDealers, updateDealerStatus } from "../../services/dealerService";
 import { useNavigate } from "react-router-dom";
 import { usePermission } from "../../context/PermissionContext";
 
 function DealerList() {
   const navigate = useNavigate();
+  const isWebMaster =
+    localStorage.getItem("role") === "WebMaster";
 
   const { hasPermission, loading: permissionsLoading } = usePermission();
 
@@ -43,6 +45,7 @@ function DealerList() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
+  const [updatingStatusId, setUpdatingStatusId] = useState(null);
 
   const fetchDealers = async (showRefreshLoader = false) => {
     try {
@@ -58,20 +61,20 @@ function DealerList() {
 
       const normalizedDealers = Array.isArray(data)
         ? data.map((dealer) => ({
-            id: dealer._id,
+          id: dealer._id,
 
-            name: dealer.name || "",
-            email: dealer.email || "",
-            phone: dealer.contactNo || "",
-            address: dealer.address || "",
+          name: dealer.name || "",
+          email: dealer.email || "",
+          phone: dealer.contactNo || "",
+          address: dealer.address || "",
 
-            subDealers: dealer.subDealers ?? null,
-            vehicles: dealer.vehicles ?? null,
-            status: dealer.status ?? null,
+          subDealers: dealer.subDealers ?? null,
+          vehicles: dealer.vehicles ?? null,
+          status: dealer.status ?? null,
 
-            createdAt: dealer.createdAt,
-            updatedAt: dealer.updatedAt,
-          }))
+          createdAt: dealer.createdAt,
+          updatedAt: dealer.updatedAt,
+        }))
         : [];
 
       setDealers(normalizedDealers);
@@ -80,7 +83,7 @@ function DealerList() {
 
       setError(
         err.response?.data?.message ||
-          "Unable to load dealers. Please try again."
+        "Unable to load dealers. Please try again."
       );
     } finally {
       setLoading(false);
@@ -132,9 +135,60 @@ function DealerList() {
     navigate("/dealers/add");
   };
 
-  const handleToggleStatus = (dealerId) => {
-    console.log("Dealer status API will be implemented later:", dealerId);
-    setOpenMenuId(null);
+  const handleToggleStatus = async (dealerId) => {
+    if (localStorage.getItem("role") !== "WebMaster") {
+      return;
+    }
+
+    const dealer = dealers.find(
+      (item) => item.id === dealerId
+    );
+
+    if (!dealer) return;
+
+    const currentStatus = dealer.status?.toLowerCase();
+
+    const newStatus =
+      currentStatus === "active" ? "inactive" : "active";
+
+    const confirmed = window.confirm(
+      `Are you sure you want to ${newStatus === "active" ? "activate" : "deactivate"
+      } ${dealer.name}?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setUpdatingStatusId(dealerId);
+
+      const response = await updateDealerStatus(
+        dealerId,
+        newStatus
+      );
+
+      const updatedStatus =
+        response.dealer?.status || newStatus;
+
+      setDealers((currentDealers) =>
+        currentDealers.map((item) =>
+          item.id === dealerId
+            ? { ...item, status: updatedStatus }
+            : item
+        )
+      );
+
+      setOpenMenuId(null);
+
+    } catch (err) {
+      console.error("Dealer status update failed:", err);
+
+      alert(
+        err.response?.data?.message ||
+        "Unable to update dealer status."
+      );
+    } finally {
+      setUpdatingStatusId(null);
+    }
   };
 
   const handleDelete = (dealerId) => {
@@ -274,7 +328,7 @@ function DealerList() {
                     key={dealer.id}
                     className={
                       openMenuId === dealer.id &&
-                      index >= filteredDealers.length - 1
+                        index >= filteredDealers.length - 1
                         ? "sf-dealer-menu-up"
                         : ""
                     }
@@ -329,20 +383,18 @@ function DealerList() {
                                             STATUS
                                         ========================== */}
                     <td>
-                      {dealer.status ? (
-                        <span
-                          className={`sf-dealer-status ${
-                            dealer.status === "Active" ? "active" : "inactive"
+                      <span
+                        className={`sf-dealer-status-badge ${dealer.status?.toLowerCase() === "active"
+                            ? "active"
+                            : "inactive"
                           }`}
-                        >
-                          <span className="sf-status-dot" />
-                          {dealer.status}
-                        </span>
-                      ) : (
-                        <span className="sf-dealer-status">
-                          <span className="sf-status-dot" />—
-                        </span>
-                      )}
+                      >
+                        <span className="sf-dealer-status-dot"></span>
+
+                        {dealer.status?.toLowerCase() === "active"
+                          ? "Active"
+                          : "Inactive"}
+                      </span>
                     </td>
 
                     {/* =========================
@@ -386,13 +438,25 @@ function DealerList() {
                           {canEditDealers && (
                             <button
                               onClick={() => handleToggleStatus(dealer.id)}
-                              title="Status management will be connected later"
+                              disabled={
+                                !isWebMaster ||
+                                updatingStatusId === dealer.id
+                              }
+                              title={
+                                isWebMaster
+                                  ? "Change dealer status"
+                                  : "Only WebMaster can change dealer status"
+                              }
+                              className={!isWebMaster ? "sf-status-disabled" : ""}
                             >
                               <FiPower />
+
                               <span>
-                                {dealer.status === "Active"
-                                  ? "Deactivate"
-                                  : "Activate"}
+                                {updatingStatusId === dealer.id
+                                  ? "Updating..."
+                                  : dealer.status?.toLowerCase() === "active"
+                                    ? "Deactivate"
+                                    : "Activate"}
                               </span>
                             </button>
                           )}

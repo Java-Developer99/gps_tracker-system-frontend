@@ -9,16 +9,32 @@ import {
     FiCalendar,
     FiClock,
     FiBriefcase,
+    FiShield,
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { getSubDealerById } from "../../services/subDealerService";
 import "../../css/SubDealerView.css";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function SubDealerView() {
 
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewSubDealer =
+        !permissionsLoading &&
+        hasPermission("SubDealer", "canView");
+
+    const canEditSubDealer =
+        !permissionsLoading &&
+        hasPermission("SubDealer", "canEdit");
 
     const [subDealer, setSubDealer] = useState(null);
 
@@ -27,12 +43,14 @@ function SubDealerView() {
 
     useEffect(() => {
 
+        if (permissionsLoading || !canViewSubDealer) {
+            return;
+        }
+
         let mounted = true;
 
         const fetchSubDealer = async () => {
-
             try {
-
                 setLoading(true);
                 setError("");
 
@@ -43,7 +61,6 @@ function SubDealerView() {
                 }
 
             } catch (err) {
-
                 console.error("Error loading subdealer:", err);
 
                 if (mounted) {
@@ -54,11 +71,9 @@ function SubDealerView() {
                 }
 
             } finally {
-
                 if (mounted) {
                     setLoading(false);
                 }
-
             }
         };
 
@@ -68,7 +83,7 @@ function SubDealerView() {
             mounted = false;
         };
 
-    }, [id]);
+    }, [id, permissionsLoading, canViewSubDealer]);
 
 
     const handleBack = () => {
@@ -101,6 +116,58 @@ function SubDealerView() {
             minute: "2-digit",
         });
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-subdealer-view-page">
+                <div className="sf-subdealer-view-loading">
+                    <div className="sf-subdealer-view-spinner" />
+                    <span>Checking permissions...</span>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewSubDealer) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to view SubDealer details.
+                        <br />
+                        Please contact your administrator if you believe
+                        you should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider" />
+
+                    <button
+                        type="button"
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        <span>Back to SubDealers</span>
+                    </button>
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
 
     if (loading) {
@@ -246,17 +313,19 @@ function SubDealerView() {
 
                 {/* TOP RIGHT EDIT BUTTON */}
 
-                <button
-                    className="sf-subdealer-view-edit-button"
-                    onClick={handleEdit}
-                    type="button"
-                >
-                    <FiEdit2 />
+                {canEditSubDealer && (
+                    <button
+                        className="sf-subdealer-view-edit-button"
+                        onClick={handleEdit}
+                        type="button"
+                    >
+                        <FiEdit2 />
 
-                    <span>
-                        Edit SubDealer
-                    </span>
-                </button>
+                        <span>
+                            Edit SubDealer
+                        </span>
+                    </button>
+                )}
 
             </div>
 

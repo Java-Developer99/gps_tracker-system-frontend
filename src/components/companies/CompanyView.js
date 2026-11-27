@@ -7,23 +7,39 @@ import {
     FiCalendar,
     FiClock,
     FiHome,
-    FiGitBranch
+    FiGitBranch,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { getCompanyById } from "../../services/companyService";
-
 import "../../css/CompanyView.css";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function CompanyView() {
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewCompanies =
+        !permissionsLoading && hasPermission("Company", "canView");
+
+    const canEditCompanies =
+        !permissionsLoading && hasPermission("Company", "canEdit");
 
     const [company, setCompany] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
+        if (permissionsLoading || !canViewCompanies) {
+            return;
+        }
+
         let mounted = true;
 
         const fetchCompany = async () => {
@@ -37,10 +53,7 @@ function CompanyView() {
 
                 setCompany(data);
             } catch (err) {
-                console.error(
-                    "Error loading company:",
-                    err
-                );
+                console.error("Error loading company:", err);
 
                 if (mounted) {
                     setError(
@@ -60,7 +73,7 @@ function CompanyView() {
         return () => {
             mounted = false;
         };
-    }, [id]);
+    }, [id, permissionsLoading, canViewCompanies]);
 
     const handleBack = () => {
         navigate("/companies");
@@ -84,6 +97,56 @@ function CompanyView() {
             }
         );
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewCompanies) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to view Companies.
+                        Please contact your administrator if you
+                        believe this is a mistake.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to Companies
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
     if (loading) {
         return (
@@ -188,14 +251,16 @@ function CompanyView() {
 
                 </div>
 
-                <button
-                    type="button"
-                    className="sf-company-view-edit-button"
-                    onClick={handleEdit}
-                >
-                    <FiEdit2 />
-                    <span>Edit Company</span>
-                </button>
+                {canEditCompanies && (
+                    <button
+                        type="button"
+                        className="sf-company-view-edit-button"
+                        onClick={handleEdit}
+                    >
+                        <FiEdit2 />
+                        <span>Edit Company</span>
+                    </button>
+                )}
 
             </div>
 

@@ -19,3 +19,12 @@ export const updateBranch = async (id, branchData) => {
     const response = await api.put(`/api/branch/edit/${id}`, branchData);
     return response.data;
 };
+
+export const updateBranchStatus = async (id, status) => {
+    const response = await api.patch(
+        `/api/branch/${id}/status`,
+        { status }
+    );
+
+    return response.data;
+};

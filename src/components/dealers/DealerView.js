@@ -26,7 +26,7 @@ function DealerView() {
         hasPermission,
         loading: permissionsLoading
     } = usePermission();
-    
+
     const canEditDealer =
         !permissionsLoading && hasPermission("Dealer", "canEdit");
 
@@ -139,20 +139,22 @@ function DealerView() {
             <div className="sf-dealer-view-page">
 
                 <div className="sf-dealer-view-page-header">
+                    <div class="sf-subdealer-view-heading">
 
-                    <button
-                        className="sf-dealer-view-back-button"
-                        onClick={handleBack}
-                        type="button"
-                    >
-                        <FiArrowLeft />
-                    </button>
+                        <button
+                            className="sf-dealer-view-back-button"
+                            onClick={handleBack}
+                            type="button"
+                        >
+                            <FiArrowLeft />
+                        </button>
 
-                    <div>
-                        <h1>Dealer Details</h1>
-                        <p>
-                            View dealer information.
-                        </p>
+                        <div>
+                            <h1>Dealer Details</h1>
+                            <p>
+                                View dealer information.
+                            </p>
+                        </div>
                     </div>
 
                 </div>
@@ -232,17 +234,17 @@ function DealerView() {
 
 
                 {canEditDealer && (
-    <button
-        className="sf-dealer-view-edit-button"
-        onClick={handleEdit}
-        type="button"
-    >
-        <FiEdit2 />
-        <span>
-            Edit Dealer
-        </span>
-    </button>
-)}
+                    <button
+                        className="sf-dealer-view-edit-button"
+                        onClick={handleEdit}
+                        type="button"
+                    >
+                        <FiEdit2 />
+                        <span>
+                            Edit Dealer
+                        </span>
+                    </button>
+                )}
 
             </div>
 

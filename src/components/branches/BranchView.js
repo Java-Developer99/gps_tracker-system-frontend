@@ -6,6 +6,7 @@ import {
     FiCalendar,
     FiHome,
     FiMapPin,
+    FiShield
 } from "react-icons/fi";
 
 import {
@@ -16,14 +17,26 @@ import {
 import {
     getBranchById,
 } from "../../services/branchService";
-
 import "../../css/BranchView.css";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function BranchView() {
 
     const { id } = useParams();
 
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewBranches =
+        !permissionsLoading && hasPermission("Branch", "canView");
+
+    const canEditBranches =
+        !permissionsLoading && hasPermission("Branch", "canEdit");
 
     const [branch, setBranch] =
         useState(null);
@@ -36,31 +49,27 @@ function BranchView() {
 
     useEffect(() => {
 
+        if (permissionsLoading || !canViewBranches) {
+            return;
+        }
+
         let mounted = true;
 
         const fetchBranch = async () => {
-
             try {
-
                 setLoading(true);
                 setError("");
 
-                const data =
-                    await getBranchById(id);
+                const data = await getBranchById(id);
 
                 if (mounted) {
                     setBranch(data);
                 }
 
             } catch (err) {
-
-                console.error(
-                    "Error loading branch:",
-                    err
-                );
+                console.error("Error loading branch:", err);
 
                 if (mounted) {
-
                     setError(
                         err.response?.data?.message ||
                         "Unable to load branch details."
@@ -68,11 +77,9 @@ function BranchView() {
                 }
 
             } finally {
-
                 if (mounted) {
                     setLoading(false);
                 }
-
             }
         };
 
@@ -82,7 +89,7 @@ function BranchView() {
             mounted = false;
         };
 
-    }, [id]);
+    }, [id, permissionsLoading, canViewBranches]);
 
     const handleBack = () => {
         navigate("/branches");
@@ -120,6 +127,56 @@ function BranchView() {
             }
         );
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewBranches) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to view Branches.
+                        Please contact your administrator if you
+                        believe this is a mistake.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to Branches
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
     if (loading) {
 
@@ -246,18 +303,19 @@ function BranchView() {
 
                 </div>
 
-                <button
-                    className="sf-branch-view-edit-button"
-                    onClick={handleEdit}
-                    type="button"
-                >
-                    <FiEdit2 />
+                {canEditBranches && (
+                    <button
+                        className="sf-branch-view-edit-button"
+                        onClick={handleEdit}
+                        type="button"
+                    >
+                        <FiEdit2 />
 
-                    <span>
-                        Edit Branch
-                    </span>
-
-                </button>
+                        <span>
+                            Edit Branch
+                        </span>
+                    </button>
+                )}
 
             </div>
 

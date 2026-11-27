@@ -17,6 +17,7 @@ import {
   FiHome,
   FiMapPin,
   FiSmartphone,
+  FiCpu
 } from "react-icons/fi";
 import { useState } from "react";
 import { usePermission } from "../../context/PermissionContext";
@@ -207,6 +208,19 @@ function Sidebar() {
                     >
                       <FiSmartphone />
                       <span>Sims</span>
+                    </NavLink>
+                  )}
+
+                  {hasPermission("Device") && (
+                    <NavLink
+                      to="/device"
+                      onClick={closeMobile}
+                      className={({ isActive }) =>
+                        `sf-nav-link ${isActive ? "active" : ""}`
+                      }
+                    >
+                      <FiCpu />
+                      <span>Devices</span>
                     </NavLink>
                   )}
                 </>

@@ -4,6 +4,7 @@ import {
     FiSave,
     FiAlertCircle,
     FiCheckCircle,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -12,13 +13,22 @@ import {
     getBranchById,
     updateBranch,
 } from "../../services/branchService";
-
 import { validateBranch } from "../../utils/branchValidation";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function BranchEdit() {
 
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canEditBranches =
+        !permissionsLoading && hasPermission("Branch", "canEdit");
 
     const [companies, setCompanies] = useState([]);
 
@@ -37,21 +47,21 @@ function BranchEdit() {
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
+        if (permissionsLoading || !canEditBranches) {
+            return;
+        }
 
         let mounted = true;
 
         const fetchData = async () => {
-
             try {
-
                 setLoading(true);
                 setServerError("");
 
-                const [branch, companiesData] =
-                    await Promise.all([
-                        getBranchById(id),
-                        getCompanies(),
-                    ]);
+                const [branch, companiesData] = await Promise.all([
+                    getBranchById(id),
+                    getCompanies(),
+                ]);
 
                 if (!mounted) return;
 
@@ -74,7 +84,6 @@ function BranchEdit() {
                 });
 
             } catch (err) {
-
                 console.error("Error loading branch:", err);
 
                 if (mounted) {
@@ -85,11 +94,9 @@ function BranchEdit() {
                 }
 
             } finally {
-
                 if (mounted) {
                     setLoading(false);
                 }
-
             }
         };
 
@@ -99,7 +106,7 @@ function BranchEdit() {
             mounted = false;
         };
 
-    }, [id]);
+    }, [id, permissionsLoading, canEditBranches]);
 
     const handleChange = (e) => {
 
@@ -122,6 +129,11 @@ function BranchEdit() {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+
+        if (!canEditBranches) {
+            setServerError("You don't have permission to edit Branches.");
+            return;
+        }
 
         setServerError("");
         setSuccess("");
@@ -175,6 +187,55 @@ function BranchEdit() {
     const handleBack = () => {
         navigate("/branches");
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canEditBranches) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to edit Branches.
+                        Please contact your administrator if you believe
+                        this is a mistake.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft /> Back to Branches
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
     if (loading) {
 

@@ -30,13 +30,18 @@ import SimEdit from "../components/sim/SimEdit";
 import SimView from "../components/sim/SimView";
 import Login from "../components/auth/Login";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
-
+import About from "../components/pages/About";
+import DeviceList from "../components/devices/DeviceList";
+import DeviceView from "../components/devices/DeviceView";
+import DeviceAdd from "../components/devices/DeviceAdd";
+import DeviceEdit from "../components/devices/DeviceEdit";
 
 function AppRoutes() {
     return (
       <Routes>
         {/* Public route */}
         <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About/>}/>
   
         {/* Protected application routes */}
         <Route element={<ProtectedRoute />}>
@@ -81,6 +86,14 @@ function AppRoutes() {
             <Route path="/sims/add" element={<SimAdd />} />
             <Route path="/sims/edit/:id" element={<SimEdit />} />
             <Route path="/sims/:id" element={<SimView />} />
+
+            {/* Device */}
+            <Route path="/device" element={<DeviceList/>}/>
+            <Route path="/device/add" element={<DeviceAdd/>}/>
+            <Route path="/device/:id" element={<DeviceView/>}/>
+            <Route path="/device/edit/:id" element={<DeviceEdit/>}/>
+
+            
           </Route>
         </Route>
   

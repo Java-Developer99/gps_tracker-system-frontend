@@ -6,16 +6,26 @@ import {
     FiFileText,
     FiMapPin,
     FiHome,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import { addCompany } from "../../services/companyService";
 import { getSubDealers } from "../../services/subDealerService";
-
 import "../../css/CompanyForm.css";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function CompanyAdd() {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canAddCompanies =
+        !permissionsLoading && hasPermission("Company", "canAdd");
 
     const [formData, setFormData] = useState({
         subDealerId: "",
@@ -31,6 +41,10 @@ function CompanyAdd() {
     const [success, setSuccess] = useState("");
 
     useEffect(() => {
+
+        if (permissionsLoading || !canAddCompanies) {
+            return;
+        }
         let mounted = true;
 
         const fetchSubDealers = async () => {
@@ -69,7 +83,7 @@ function CompanyAdd() {
         return () => {
             mounted = false;
         };
-    }, []);
+    }, [permissionsLoading, canAddCompanies]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -85,6 +99,11 @@ function CompanyAdd() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!canAddCompanies) {
+            setError("You don't have permission to add Companies.");
+            return;
+        }
 
         setError("");
         setSuccess("");
@@ -137,6 +156,55 @@ function CompanyAdd() {
     const handleCancel = () => {
         navigate("/companies");
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canAddCompanies) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to add Companies.
+                        Please contact your administrator if you
+                        believe this is a mistake.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleCancel}
+                    >
+                        <FiArrowLeft />
+                        Back to Companies
+                    </button>
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="sf-company-form-page">

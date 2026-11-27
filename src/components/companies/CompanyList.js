@@ -6,15 +6,29 @@ import {
     FiMoreVertical,
     FiEye,
     FiEdit2,
+    FiPower,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
-import { getCompanies } from "../../services/companyService";
-
+import { getCompanies, updateCompanyStatus } from "../../services/companyService";
 import "../../css/CompanyList.css";
+import { usePermission } from "../../context/PermissionContext";
 
 function CompanyList() {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewCompanies =
+        !permissionsLoading && hasPermission("Company", "canView");
+
+    const canAddCompanies =
+        !permissionsLoading && hasPermission("Company", "canAdd");
+
+    const canEditCompanies =
+        !permissionsLoading && hasPermission("Company", "canEdit");
 
     const [companies, setCompanies] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -22,6 +36,13 @@ function CompanyList() {
     const [refreshing, setRefreshing] = useState(false);
     const [openMenuId, setOpenMenuId] = useState(null);
     const [error, setError] = useState("");
+    const isWebMaster =
+        localStorage.getItem("role") === "WebMaster";
+
+    const canManageCompanyStatus =
+        isWebMaster && canEditCompanies;
+
+    const [updatingStatusId, setUpdatingStatusId] = useState(null);
 
     const fetchCompanies = async (isRefresh = false) => {
         try {
@@ -41,6 +62,7 @@ function CompanyList() {
                     name: company.name || "",
                     gstNo: company.gstNo || "",
                     address: company.address || "",
+                    status: company.status || "inactive",
 
                     subDealerId:
                         company.subDealerId &&
@@ -53,6 +75,7 @@ function CompanyList() {
                             typeof company.subDealerId === "object"
                             ? company.subDealerId.name || ""
                             : "",
+
 
                     createdAt: company.createdAt,
                     updatedAt: company.updatedAt,
@@ -74,8 +97,12 @@ function CompanyList() {
     };
 
     useEffect(() => {
-        fetchCompanies();
+        if (!permissionsLoading && canViewCompanies) {
+            fetchCompanies();
+        }
+    }, [permissionsLoading, canViewCompanies]);
 
+    useEffect(() => {
         const handleClickOutside = () => {
             setOpenMenuId(null);
         };
@@ -86,7 +113,6 @@ function CompanyList() {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
-
     const filteredCompanies = companies.filter((company) => {
         const search = searchTerm.toLowerCase().trim();
 
@@ -126,6 +152,65 @@ function CompanyList() {
         navigate(`/companies/edit/${id}`);
     };
 
+    const handleStatusChange = async (company) => {
+        if (!canManageCompanyStatus) {
+            return;
+        }
+
+        const newStatus =
+            company.status === "active" ? "inactive" : "active";
+
+        const actionText =
+            newStatus === "active" ? "Activate" : "Deactivate";
+
+        const confirmed = window.confirm(
+            `Are you sure you want to ${actionText} ${company.name}?`
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            setUpdatingStatusId(company.id);
+            setError("");
+
+            await updateCompanyStatus(company.id, newStatus);
+
+            await fetchCompanies(true);
+        } catch (err) {
+            console.error("Error updating company status:", err);
+
+            setError(
+                err.response?.data?.message ||
+                "Unable to update company status."
+            );
+        } finally {
+            setUpdatingStatusId(null);
+        }
+    };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-company-list-page">
+                <div className="sf-company-list-loading">
+                    <span>Checking permissions...</span>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewCompanies) {
+        return (
+            <div className="sf-company-list-page">
+                <div className="sf-company-list-loading">
+                    <h2>Access Denied</h2>
+                    <p>You don't have permission to view Companies.</p>
+                </div>
+            </div>
+        );
+    }
+
     if (loading) {
         return (
             <div className="sf-company-list-page">
@@ -149,14 +234,17 @@ function CompanyList() {
                     </p>
                 </div>
 
-                <button
-                    type="button"
-                    className="sf-company-add-button"
-                    onClick={() => navigate("/companies/add")}
-                >
-                    <FiPlus />
-                    <span>Add Company</span>
-                </button>
+                {canAddCompanies && (
+
+                    <button
+                        type="button"
+                        className="sf-company-add-button"
+                        onClick={() => navigate("/companies/add")}
+                    >
+                        <FiPlus />
+                        <span>Add Company</span>
+                    </button>
+                )}
             </div>
 
             {/* ERROR */}
@@ -226,6 +314,7 @@ function CompanyList() {
                                 <th>SubDealer</th>
                                 <th>GST Number</th>
                                 <th>Address</th>
+                                <th>Status</th>
                                 <th className="sf-company-actions-heading">
                                     Actions
                                 </th>
@@ -294,6 +383,21 @@ function CompanyList() {
                                                 </div>
                                             </td>
 
+                                            <td>
+                                                <span
+                                                    className={`sf-dealer-status-badge ${company.status?.toLowerCase() === "active"
+                                                        ? "active"
+                                                        : "inactive"
+                                                        }`}
+                                                >
+                                                    <span className="sf-dealer-status-dot"></span>
+
+                                                    {company.status?.toLowerCase() === "active"
+                                                        ? "Active"
+                                                        : "Inactive"}
+                                                </span>
+                                            </td>
+
                                             {/* ACTIONS */}
                                             <td className="sf-company-actions-cell">
 
@@ -317,34 +421,56 @@ function CompanyList() {
                                                             event.stopPropagation()
                                                         }
                                                     >
+                                                        {canViewCompanies && (
 
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                handleView(
-                                                                    company.id
-                                                                )
-                                                            }
-                                                        >
-                                                            <FiEye />
-                                                            <span>
-                                                                View
-                                                            </span>
-                                                        </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    handleView(
+                                                                        company.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <FiEye />
+                                                                <span>
+                                                                    View
+                                                                </span>
+                                                            </button>
+                                                        )}
 
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                handleEdit(
-                                                                    company.id
-                                                                )
-                                                            }
-                                                        >
-                                                            <FiEdit2 />
-                                                            <span>
-                                                                Edit
-                                                            </span>
-                                                        </button>
+                                                        {canEditCompanies && (
+
+                                                            <button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    handleEdit(
+                                                                        company.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <FiEdit2 />
+                                                                <span>
+                                                                    Edit
+                                                                </span>
+                                                            </button>
+                                                        )}
+
+                                                        {canManageCompanyStatus && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleStatusChange(company)}
+                                                                disabled={updatingStatusId === company.id}
+                                                            >
+                                                                <FiPower />
+                                                                <span>
+                                                                    {updatingStatusId === company.id
+                                                                        ? "Updating..."
+                                                                        : company.status === "active"
+                                                                            ? "Deactivate"
+                                                                            : "Activate"}
+                                                                </span>
+                                                            </button>
+                                                        )}
 
                                                     </div>
                                                 )}
@@ -357,7 +483,7 @@ function CompanyList() {
                             ) : (
                                 <tr>
                                     <td
-                                        colSpan="5"
+                                        colSpan="6"
                                         className="sf-company-empty-cell"
                                     >
                                         <div className="sf-company-empty">

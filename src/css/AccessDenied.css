@@ -1,0 +1,124 @@
+
+/* =========================================
+   ACCESS DENIED - SUBDEALER
+========================================= */
+
+.sf-access-denied-page {
+  min-height: calc(100vh - 115px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 24px;
+  background: #f4f7fc;
+}
+
+.sf-access-denied-card {
+  width: 100%;
+  max-width: 735px;
+  background: #ffffff;
+  border: 1px solid #e7edf5;
+  border-radius: 30px;
+  padding: 68px 64px;
+  text-align: center;
+  box-shadow: 0 15px 45px rgba(31, 55, 90, 0.08);
+}
+
+.sf-access-denied-icon {
+  width: 115px;
+  height: 115px;
+  margin: 0 auto 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff0f1;
+  border-radius: 32px;
+  color: #ef4444;
+}
+
+.sf-access-denied-icon svg {
+  width: 48px;
+  height: 48px;
+  stroke-width: 2;
+}
+
+.sf-access-denied-label {
+  color: #ef4444;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.sf-access-denied-card h1 {
+  color: #172b4d;
+  font-size: 40px;
+  font-weight: 750;
+  margin: 0 0 24px;
+}
+
+.sf-access-denied-card p {
+  color: #718096;
+  font-size: 20px;
+  line-height: 1.9;
+  margin: 0 auto;
+  max-width: 530px;
+}
+
+.sf-access-denied-divider {
+  height: 1px;
+  background: #e8edf5;
+  margin: 42px 0 36px;
+}
+
+.sf-access-denied-button {
+  width: 100%;
+  min-height: 69px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  border: none;
+  border-radius: 15px;
+  background: #2860ed;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.sf-access-denied-button:hover {
+  background: #174bd0;
+  transform: translateY(-2px);
+}
+
+.sf-access-denied-button svg {
+  width: 21px;
+  height: 21px;
+}
+
+@media (max-width: 768px) {
+  .sf-access-denied-card {
+    padding: 42px 24px;
+    border-radius: 22px;
+  }
+
+  .sf-access-denied-icon {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 28px;
+  }
+
+  .sf-access-denied-card h1 {
+    font-size: 30px;
+  }
+
+  .sf-access-denied-card p {
+    font-size: 16px;
+  }
+
+  .sf-access-denied-button {
+    min-height: 58px;
+    font-size: 16px;
+  }
+}

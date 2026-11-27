@@ -5,22 +5,30 @@ import {
     FiFileText,
     FiMapPin,
     FiGitBranch,
-    FiHome
+    FiHome,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
-
 import {
     getCompanyById,
     updateCompany,
 } from "../../services/companyService";
-
 import { getSubDealers } from "../../services/subDealerService";
-
 import "../../css/CompanyForm.css";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function CompanyEdit() {
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canEditCompanies =
+        !permissionsLoading && hasPermission("Company", "canEdit");
 
     const [formData, setFormData] = useState({
         subDealerId: "",
@@ -38,6 +46,10 @@ function CompanyEdit() {
     const [success, setSuccess] = useState("");
 
     useEffect(() => {
+        if (permissionsLoading || !canEditCompanies) {
+            return;
+        }
+
         let mounted = true;
 
         const fetchData = async () => {
@@ -72,10 +84,7 @@ function CompanyEdit() {
                         : []
                 );
             } catch (err) {
-                console.error(
-                    "Error loading company:",
-                    err
-                );
+                console.error("Error loading company:", err);
 
                 if (mounted) {
                     setError(
@@ -95,7 +104,7 @@ function CompanyEdit() {
         return () => {
             mounted = false;
         };
-    }, [id]);
+    }, [id, permissionsLoading, canEditCompanies]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -111,6 +120,11 @@ function CompanyEdit() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!canEditCompanies) {
+            setError("You don't have permission to edit Companies.");
+            return;
+        }
 
         setError("");
         setSuccess("");
@@ -167,6 +181,55 @@ function CompanyEdit() {
     const handleCancel = () => {
         navigate("/companies");
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canEditCompanies) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to edit Companies.
+                        Please contact your administrator if you
+                        believe this is a mistake.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleCancel}
+                    >
+                        <FiArrowLeft />
+                        Back to Companies
+                    </button>
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
     if (loading) {
         return (

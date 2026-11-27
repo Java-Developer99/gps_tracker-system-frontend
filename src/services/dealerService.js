@@ -19,3 +19,12 @@ export const updateDealer = async (id, dealerData) => {
   const response = await api.put(`/api/dealer/edit/${id}`, dealerData);
   return response.data;
 };
+
+export const updateDealerStatus = async (id, status) => {
+  const response = await api.patch(
+    `/api/dealer/${id}/status`,
+    { status }
+  );
+
+  return response.data;
+};

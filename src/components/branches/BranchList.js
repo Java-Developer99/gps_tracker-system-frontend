@@ -12,18 +12,34 @@ import {
     FiEye,
     FiEdit2,
     FiMapPin,
-    FiHome
+    FiHome,
+    FiPower,
+    FiShield
 } from "react-icons/fi";
 
 import { useNavigate } from "react-router-dom";
-
-import { getBranches } from "../../services/branchService";
-
+import { getBranches, updateBranchStatus } from "../../services/branchService";
 import "../../css/BranchList.css";
+import { usePermission } from "../../context/PermissionContext";
+
 
 function BranchList() {
 
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewBranches =
+        !permissionsLoading && hasPermission("Branch", "canView");
+
+    const canAddBranches =
+        !permissionsLoading && hasPermission("Branch", "canAdd");
+
+    const canEditBranches =
+        !permissionsLoading && hasPermission("Branch", "canEdit");
 
     const [branches, setBranches] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +48,13 @@ function BranchList() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState("");
+    const [statusUpdatingId, setStatusUpdatingId] = useState(null);
+
+    const isWebMaster =
+        localStorage.getItem("role") === "WebMaster";
+
+    const canChangeBranchStatus =
+        isWebMaster && canEditBranches;
 
     const fetchBranches = async (
         showRefreshLoader = false
@@ -78,6 +101,9 @@ function BranchList() {
 
                             updatedAt:
                                 branch.updatedAt,
+
+                            status:
+                                branch.status || "active",
                         };
                     })
                     : [];
@@ -105,8 +131,10 @@ function BranchList() {
     };
 
     useEffect(() => {
-        fetchBranches();
-    }, []);
+        if (!permissionsLoading && canViewBranches) {
+            fetchBranches();
+        }
+    }, [permissionsLoading, canViewBranches]);
 
     const filteredBranches = useMemo(() => {
 
@@ -166,6 +194,89 @@ function BranchList() {
         navigate("/branches/add");
     };
 
+    const handleBranchStatusChange = async (branch) => {
+        const newStatus =
+            branch.status === "active" ? "inactive" : "active";
+
+        const action =
+            newStatus === "active" ? "activate" : "deactivate";
+
+        const confirmed = window.confirm(
+            `Are you sure you want to ${action} "${branch.name}"?`
+        );
+
+        if (!confirmed) return;
+
+        try {
+            setStatusUpdatingId(branch.id);
+            setError("");
+
+            const response = await updateBranchStatus(
+                branch.id,
+                newStatus
+            );
+
+            setBranches((prevBranches) =>
+                prevBranches.map((item) =>
+                    item.id === branch.id
+                        ? {
+                            ...item,
+                            status: response.branch?.status || newStatus,
+                        }
+                        : item
+                )
+            );
+
+        } catch (err) {
+            console.error("Error updating branch status:", err);
+
+            setError(
+                err.response?.data?.message ||
+                "Unable to update branch status. Please try again."
+            );
+
+        } finally {
+            setStatusUpdatingId(null);
+        }
+    };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-branch-page">
+                <div className="sf-branch-card">
+                    <div
+                        style={{
+                            padding: "40px",
+                            textAlign: "center",
+                        }}
+                    >
+                        Checking permissions...
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewBranches) {
+        return (
+            <div className="sf-branch-page">
+                <div className="sf-branch-card">
+                    <div
+                        style={{
+                            padding: "40px",
+                            textAlign: "center",
+                        }}
+                    >
+                        <h2>Access Denied</h2>
+                        <p>
+                            You don't have permission to view Branches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (loading) {
 
         return (
@@ -219,16 +330,15 @@ function BranchList() {
 
                 </div>
 
-                <button
-                    className="sf-branch-add-button"
-                    onClick={handleAddBranch}
-                >
-                    <FiPlus />
-
-                    <span>
-                        Add Branch
-                    </span>
-                </button>
+                {canAddBranches && (
+                    <button
+                        className="sf-branch-add-button"
+                        onClick={handleAddBranch}
+                    >
+                        <FiPlus />
+                        <span>Add Branch</span>
+                    </button>
+                )}
 
             </div>
 
@@ -335,6 +445,10 @@ function BranchList() {
                                     </th>
 
                                     <th>
+                                        Status
+                                    </th>
+
+                                    <th>
                                         Actions
                                     </th>
 
@@ -393,7 +507,7 @@ function BranchList() {
                                             <td>
 
                                                 <div className="sf-branch-company">
-                                                    
+
                                                     <FiHome />
 
                                                     <span>
@@ -431,6 +545,21 @@ function BranchList() {
 
                                             </td>
 
+                                            <td>
+                                                <span
+                                                    className={`sf-dealer-status-badge ${branch.status?.toLowerCase() === "active"
+                                                        ? "active"
+                                                        : "inactive"
+                                                        }`}
+                                                >
+                                                    <span className="sf-dealer-status-dot"></span>
+
+                                                    {branch.status?.toLowerCase() === "active"
+                                                        ? "Active"
+                                                        : "Inactive"}
+                                                </span>
+                                            </td>
+
                                             {/* ACTIONS */}
 
                                             <td className="sf-branch-actions-cell">
@@ -456,31 +585,51 @@ function BranchList() {
 
                                                         <div className="sf-branch-action-menu">
 
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleView(
-                                                                        branch.id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <FiEye />
-                                                                <span>
-                                                                    View
-                                                                </span>
-                                                            </button>
+                                                            {canViewBranches && (
+                                                                <button
+                                                                    onClick={() =>
+                                                                        handleView(
+                                                                            branch.id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <FiEye />
+                                                                    <span>
+                                                                        View
+                                                                    </span>
+                                                                </button>
+                                                            )}
 
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleEdit(
-                                                                        branch.id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <FiEdit2 />
-                                                                <span>
-                                                                    Edit
-                                                                </span>
-                                                            </button>
+                                                            {canEditBranches && (
+                                                                <button
+                                                                    onClick={() =>
+                                                                        handleEdit(
+                                                                            branch.id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <FiEdit2 />
+                                                                    <span>
+                                                                        Edit
+                                                                    </span>
+                                                                </button>
+                                                            )}
+
+                                                            {canChangeBranchStatus && (
+                                                                <button
+                                                                    onClick={() => handleBranchStatusChange(branch)}
+                                                                    disabled={statusUpdatingId === branch.id}
+                                                                >
+                                                                    <FiPower />
+                                                                    <span>
+                                                                        {statusUpdatingId === branch.id
+                                                                            ? "Updating..."
+                                                                            : branch.status === "active"
+                                                                                ? "Deactivate"
+                                                                                : "Activate"}
+                                                                    </span>
+                                                                </button>
+                                                            )}
 
                                                         </div>
 

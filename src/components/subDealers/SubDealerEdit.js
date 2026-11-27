@@ -7,6 +7,7 @@ import {
     FiPhone,
     FiMapPin,
     FiBriefcase,
+    FiShield,
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -16,13 +17,23 @@ import {
 } from "../../services/subDealerService";
 
 import { getDealers } from "../../services/dealerService";
-
 import "../../css/SubDealerEdit.css";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function SubDealerEdit() {
 
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canEditSubDealer =
+        !permissionsLoading &&
+        hasPermission("SubDealer", "canEdit");
 
     const [formData, setFormData] = useState({
         dealerId: "",
@@ -47,12 +58,14 @@ function SubDealerEdit() {
 
     useEffect(() => {
 
+        if (permissionsLoading || !canEditSubDealer) {
+            return;
+        }
+
         let mounted = true;
 
         const fetchData = async () => {
-
             try {
-
                 setLoading(true);
                 setError("");
 
@@ -86,11 +99,7 @@ function SubDealerEdit() {
                 );
 
             } catch (err) {
-
-                console.error(
-                    "Error loading subdealer:",
-                    err
-                );
+                console.error("Error loading subdealer:", err);
 
                 if (mounted) {
                     setError(
@@ -100,11 +109,9 @@ function SubDealerEdit() {
                 }
 
             } finally {
-
                 if (mounted) {
                     setLoading(false);
                 }
-
             }
         };
 
@@ -114,7 +121,7 @@ function SubDealerEdit() {
             mounted = false;
         };
 
-    }, [id]);
+    }, [id, permissionsLoading, canEditSubDealer]);
 
 
     /* =========================================
@@ -142,6 +149,11 @@ function SubDealerEdit() {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+
+        if (!canEditSubDealer) {
+            setError("You don't have permission to edit SubDealers.");
+            return;
+        }
 
         setError("");
         setSuccess("");
@@ -231,6 +243,67 @@ function SubDealerEdit() {
     const handleCancel = () => {
         navigate("/subdealers");
     };
+
+    /* =========================================
+   PERMISSION LOADING
+========================================= */
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-subdealer-edit-page">
+                <div className="sf-subdealer-edit-loading">
+                    <div className="sf-subdealer-edit-spinner" />
+                    <span>Checking permissions...</span>
+                </div>
+            </div>
+        );
+    }
+
+
+    /* =========================================
+       ACCESS DENIED
+    ========================================= */
+
+    if (!canEditSubDealer) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to edit this SubDealer.
+                        <br />
+                        Please contact your administrator if you believe
+                        you should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider" />
+
+                    <button
+                        type="button"
+                        className="sf-access-denied-button"
+                        onClick={handleCancel}
+                    >
+                        <FiArrowLeft />
+                        <span>Back to SubDealers</span>
+                    </button>
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
 
     /* =========================================

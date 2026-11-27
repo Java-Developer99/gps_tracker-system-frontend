@@ -19,3 +19,12 @@ export const updateCompany = async (id, companyData) => {
     const response = await api.put(`/api/company/edit/${id}`, companyData);
     return response.data;
 };
+
+export const updateCompanyStatus = async (id, status) => {
+    const response = await api.patch(
+        `/api/company/${id}/status`,
+        { status }
+    );
+
+    return response.data;
+};

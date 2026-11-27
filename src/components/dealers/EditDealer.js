@@ -7,6 +7,8 @@ import {
     FiPhone,
     FiMapPin,
     FiShield,
+    FiAlertCircle,
+    FiRefreshCw
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -320,61 +322,58 @@ function EditDealer() {
     */
 
     if (error && !formData.name && !formData.email) {
+    return (
+        <div className="sf-access-denied-page">
+            <div className="sf-access-denied-card">
 
-        return (
-            <div className="sf-add-dealer-page">
-
-                <div className="sf-add-dealer-page-header">
-
-                    <div className="sf-add-dealer-heading">
-
-                        <button
-                            className="sf-add-dealer-back-button"
-                            onClick={handleCancel}
-                            type="button"
-                        >
-                            <FiArrowLeft />
-                        </button>
-
-                        <div>
-
-                            <h1>
-                                Edit Dealer
-                            </h1>
-
-                            <p>
-                                Update dealer information.
-                            </p>
-
-                        </div>
-
-                    </div>
-
+                <div className="sf-load-error-icon">
+                    <FiAlertCircle />
                 </div>
 
+                <span className="sf-load-error-label">
+                    SOMETHING WENT WRONG
+                </span>
 
-                <div className="sf-add-dealer-error-card">
+                <h2>Unable to Load Dealer</h2>
 
-                    <h2>
-                        Unable to load dealer
-                    </h2>
+                <p>
+                    We couldn't retrieve the dealer information.
+                    Please check your connection or try again.
+                </p>
 
-                    <p>
-                        {error}
-                    </p>
-
-                    <button
-                        type="button"
-                        onClick={handleCancel}
-                    >
-                        Back to Dealer
-                    </button>
-
+                <div className="sf-load-error-message">
+                    <strong>Error details</strong>
+                    <span>{error}</span>
                 </div>
+
+                <div className="sf-access-denied-divider"></div>
+
+                <button
+                    type="button"
+                    className="sf-load-error-retry-button"
+                    onClick={() => window.location.reload()}
+                >
+                    <FiRefreshCw />
+                    <span>Try Again</span>
+                </button>
+
+                <button
+                    type="button"
+                    className="sf-load-error-back-button"
+                    onClick={handleCancel}
+                >
+                    <FiArrowLeft />
+                    <span>Back to Dealer</span>
+                </button>
+
+                <span className="sf-access-denied-footer">
+                    SyncFleet · Dealer Management
+                </span>
 
             </div>
-        );
-    }
+        </div>
+    );
+}
 
 
     /*

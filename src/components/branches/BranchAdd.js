@@ -4,17 +4,27 @@ import {
     FiSave,
     FiAlertCircle,
     FiCheckCircle,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
 import { getCompanies } from "../../services/companyService";
 import { addBranch } from "../../services/branchService";
 import { validateBranch } from "../../utils/branchValidation";
 import "../../css/BranchForm.css"
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function BranchAdd() {
 
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canAddBranches =
+        !permissionsLoading && hasPermission("Branch", "canAdd");
 
     const [companies, setCompanies] = useState([]);
 
@@ -33,37 +43,48 @@ function BranchAdd() {
 
     useEffect(() => {
 
+        if (permissionsLoading || !canAddBranches) {
+            return;
+        }
+
+        let mounted = true;
+
         const fetchCompanies = async () => {
-
             try {
-
                 setLoadingCompanies(true);
 
                 const data = await getCompanies();
 
-                setCompanies(
-                    Array.isArray(data) ? data : []
-                );
+                if (mounted) {
+                    setCompanies(
+                        Array.isArray(data) ? data : []
+                    );
+                }
 
             } catch (err) {
-
                 console.error("Error fetching companies:", err);
 
-                setServerError(
-                    err.response?.data?.message ||
-                    "Unable to load companies."
-                );
+                if (mounted) {
+                    setServerError(
+                        err.response?.data?.message ||
+                        "Unable to load companies."
+                    );
+                }
 
             } finally {
-
-                setLoadingCompanies(false);
-
+                if (mounted) {
+                    setLoadingCompanies(false);
+                }
             }
         };
 
         fetchCompanies();
 
-    }, []);
+        return () => {
+            mounted = false;
+        };
+
+    }, [permissionsLoading, canAddBranches]);
 
     const handleChange = (e) => {
 
@@ -86,6 +107,13 @@ function BranchAdd() {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+
+        if (!canAddBranches) {
+            setServerError(
+                "You don't have permission to add Branches."
+            );
+            return;
+        }
 
         setServerError("");
         setSuccess("");
@@ -136,6 +164,55 @@ function BranchAdd() {
     const handleBack = () => {
         navigate("/branches");
     };
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canAddBranches) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to add Branches.
+                        Please contact your administrator if you
+                        believe this is a mistake.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to Branches
+                    </button>
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="sf-branch-form-page">

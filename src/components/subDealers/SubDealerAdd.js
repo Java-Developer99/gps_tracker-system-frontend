@@ -7,16 +7,25 @@ import {
     FiPhone,
     FiMapPin,
     FiBriefcase,
+    FiShield,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
 import "../../css/SubDealerAdd.css";
-
 import { addSubDealer } from "../../services/subDealerService";
 import { getDealers } from "../../services/dealerService";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 function SubDealerAdd() {
     const navigate = useNavigate();
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canAddSubDealer =
+        !permissionsLoading &&
+        hasPermission("SubDealer", "canAdd");
 
     const [dealers, setDealers] = useState([]);
 
@@ -33,8 +42,10 @@ function SubDealerAdd() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetchDealers();
-    }, []);
+        if (!permissionsLoading && canAddSubDealer) {
+            fetchDealers();
+        }
+    }, [permissionsLoading, canAddSubDealer]);
 
     const fetchDealers = async () => {
         try {
@@ -67,6 +78,11 @@ function SubDealerAdd() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!canAddSubDealer) {
+            setError("You don't have permission to add SubDealers.");
+            return;
+        }
 
         setError("");
 
@@ -121,6 +137,58 @@ function SubDealerAdd() {
         }
     };
 
+    if (permissionsLoading) {
+        return (
+            <div className="sf-subdealer-add-page">
+                <div className="sf-subdealer-add-card">
+                    <div style={{ padding: "40px", textAlign: "center" }}>
+                        Checking permissions...
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canAddSubDealer) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to create a new SubDealer.
+                        <br />
+                        Please contact your administrator if you believe you
+                        should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        type="button"
+                        className="sf-access-denied-button"
+                        onClick={() => navigate("/subdealers")}
+                    >
+                        <FiArrowLeft />
+                        <span>Back to SubDealers</span>
+                    </button>
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="sf-subdealer-add-page">
 
