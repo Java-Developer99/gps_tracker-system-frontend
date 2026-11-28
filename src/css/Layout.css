@@ -694,3 +694,26 @@
     display: none;
   }
 }
+
+
+
+.sf-settings-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.sf-settings-toggle > span {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sf-nav-submenu {
+  padding-left: 18px;
+}
+

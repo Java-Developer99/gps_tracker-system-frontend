@@ -17,7 +17,9 @@ import {
   FiHome,
   FiMapPin,
   FiSmartphone,
-  FiCpu
+  FiCpu,
+  FiShield,
+  FiUserCheck,
 } from "react-icons/fi";
 import { useState } from "react";
 import { usePermission } from "../../context/PermissionContext";
@@ -28,6 +30,7 @@ function Sidebar() {
   const [adminOpen, setAdminOpen] = useState(true);
 
   const { hasPermission, loading } = usePermission();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const closeMobile = () => {
     setMobileOpen(false);
@@ -223,6 +226,19 @@ function Sidebar() {
                       <span>Devices</span>
                     </NavLink>
                   )}
+
+                  {!loading && hasPermission("User") && (
+                    <NavLink
+                      to="/user"
+                      onClick={closeMobile}
+                      className={({ isActive }) =>
+                        `sf-nav-link ${isActive ? "active" : ""}`
+                      }
+                    >
+                      <FiUsers />
+                      <span>Users</span>
+                    </NavLink>
+                  )}
                 </>
               )}
             </div>
@@ -261,6 +277,7 @@ function Sidebar() {
             </div>
           )}
 
+
           {/* ADMIN */}
           <div className="sf-nav-section">
             <button
@@ -273,34 +290,50 @@ function Sidebar() {
 
             {adminOpen && (
               <>
-                {!loading && hasPermission("User") && (
-                  <NavLink
-                    to="/users"
-                    onClick={closeMobile}
-                    className={({ isActive }) =>
-                      `sf-nav-link ${isActive ? "active" : ""}`
-                    }
-                  >
-                    <FiUsers />
-                    <span>Users</span>
-                  </NavLink>
-                )}
-
-                {/* Settings remains visible until a matching
-                    backend permission function is configured. */}
-                <NavLink
-                  to="/settings"
-                  onClick={closeMobile}
-                  className={({ isActive }) =>
-                    `sf-nav-link ${isActive ? "active" : ""}`
-                  }
+                {/* Settings Dropdown */}
+                <button
+                  className="sf-nav-section-toggle sf-settings-toggle"
+                  onClick={() => setSettingsOpen(!settingsOpen)}
                 >
-                  <FiSettings />
-                  <span>Settings</span>
-                </NavLink>
+                  <span>
+                    <FiSettings />
+                    Settings
+                  </span>
+
+                  <FiChevronDown
+                    className={settingsOpen ? "" : "collapsed"}
+                  />
+                </button>
+
+                {/* Settings Submenu */}
+                {settingsOpen && (
+                  <div className="sf-nav-submenu">
+                    <NavLink
+                      to="/user-permissions"
+                      onClick={closeMobile}
+                      className={({ isActive }) =>
+                        `sf-nav-link ${isActive ? "active" : ""}`
+                      }
+                    >
+                      <FiUserCheck />
+                      <span>User Permissions</span>
+                    </NavLink>
+                    <NavLink
+                      to="/userType-permissions"
+                      onClick={closeMobile}
+                      className={({ isActive }) =>
+                        `sf-nav-link ${isActive ? "active" : ""}`
+                      }
+                    >
+                      <FiShield />
+                      <span>UserType Permissions</span>
+                    </NavLink>
+                  </div>
+                )}
               </>
             )}
           </div>
+
 
           {/* SUPPORT */}
           <div className="sf-nav-section">

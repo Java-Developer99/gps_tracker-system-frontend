@@ -1,0 +1,472 @@
+
+/* PAGE */
+
+.sf-user-form-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 28px 32px;
+    background: #f7f9fc;
+    color: #172033;
+}
+
+/* PAGE HEADER */
+
+.sf-user-form-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.sf-user-form-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sf-user-form-heading h1 {
+    margin: 0;
+    color: #172033;
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+}
+
+.sf-user-form-heading p {
+    margin: 6px 0 0;
+    color: #778197;
+    font-size: 13px;
+}
+
+.sf-user-form-back-button {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e7ef;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #4b5870;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sf-user-form-back-button:hover {
+    border-color: #b9c8e3;
+    background: #f0f5ff;
+    color: #315fbd;
+}
+
+/* FORM CARD */
+
+.sf-user-form-card {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #e8edf4;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(20, 35, 65, 0.04);
+}
+
+.sf-user-form-card-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.sf-user-form-card-header h2 {
+    margin: 0;
+    color: #1b263b;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sf-user-form-card-header p {
+    margin: 7px 0 0;
+    color: #8791a3;
+    font-size: 13px;
+}
+
+/* FORM */
+
+.sf-user-form {
+    padding: 26px 28px 28px;
+}
+
+.sf-user-form-section {
+    margin: 8px 0 20px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.sf-user-form-section:not(:first-child) {
+    margin-top: 34px;
+}
+
+.sf-user-form-section h3 {
+    margin: 0;
+    color: #26334a;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sf-user-form-section p {
+    margin: 5px 0 0;
+    color: #8993a5;
+    font-size: 12px;
+}
+
+.sf-user-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 21px 24px;
+}
+
+.sf-user-form-group {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sf-user-form-full {
+    grid-column: 1 / -1;
+}
+
+.sf-user-form-group label {
+    color: #354157;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.sf-user-form-group label span {
+    color: #e04f5f;
+}
+
+.sf-user-form-group input,
+.sf-user-form-group select,
+.sf-user-form-group textarea {
+    width: 100%;
+    min-height: 43px;
+    padding: 10px 13px;
+    outline: none;
+    border: 1px solid #dfe5ee;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #27344a;
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sf-user-form-group input::placeholder,
+.sf-user-form-group textarea::placeholder {
+    color: #a3adbd;
+}
+
+.sf-user-form-group select {
+    cursor: pointer;
+}
+
+.sf-user-form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.sf-user-form-group input:focus,
+.sf-user-form-group select:focus,
+.sf-user-form-group textarea:focus {
+    border-color: #7299e8;
+    box-shadow: 0 0 0 3px rgba(73, 125, 220, 0.10);
+}
+
+.sf-user-form-group input:disabled,
+.sf-user-form-group select:disabled,
+.sf-user-form-group textarea:disabled {
+    background: #f5f7fa;
+    cursor: not-allowed;
+}
+
+/* PASSWORD */
+
+.sf-user-password-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.sf-user-password-wrap input {
+    padding-right: 45px;
+}
+
+.sf-user-password-wrap button {
+    position: absolute;
+    right: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border: none;
+    background: transparent;
+    color: #8792a5;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.sf-user-password-wrap button:hover {
+    color: #315fbd;
+}
+
+.sf-user-password-wrap button:disabled {
+    cursor: not-allowed;
+}
+
+/* FIELD MESSAGES */
+
+.sf-user-field-error {
+    color: #d94350;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.sf-user-field-hint {
+    color: #8994a6;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.sf-user-input-error {
+    border-color: #e16a75 !important;
+    background: #fffafb !important;
+}
+
+/* SERVER MESSAGES */
+
+.sf-user-form-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 20px 28px 0;
+    padding: 12px 14px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.sf-user-form-message svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 16px;
+}
+
+.sf-user-form-error {
+    border-color: #f5d2d5;
+    background: #fff5f5;
+    color: #bd3947;
+}
+
+.sf-user-form-success {
+    border-color: #ccebd9;
+    background: #f1fbf5;
+    color: #23834c;
+}
+
+/* PERMISSION INFO */
+
+.sf-user-form-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 14px 15px;
+    border: 1px solid #e0e9fb;
+    border-radius: 9px;
+    background: #f5f8ff;
+    color: #52698f;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.sf-user-form-info svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: #5279c4;
+    font-size: 16px;
+}
+
+/* FOOTER BUTTONS */
+
+.sf-user-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid #edf0f5;
+}
+
+.sf-user-form-cancel-button,
+.sf-user-form-save-button {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 0 19px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sf-user-form-cancel-button {
+    border: 1px solid #dfe5ee;
+    background: #ffffff;
+    color: #59667b;
+}
+
+.sf-user-form-cancel-button:hover {
+    border-color: #c4cedd;
+    background: #f7f9fc;
+}
+
+.sf-user-form-save-button {
+    border: 1px solid #3268c8;
+    background: #3268c8;
+    color: #ffffff;
+}
+
+.sf-user-form-save-button:hover {
+    border-color: #2556ae;
+    background: #2556ae;
+}
+
+.sf-user-form-save-button:disabled,
+.sf-user-form-cancel-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* LOADING */
+
+.sf-user-form-loading {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #718096;
+    font-size: 14px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .sf-user-form-page {
+        padding: 20px 16px;
+    }
+
+    .sf-user-form-card-header {
+        padding: 20px;
+    }
+
+    .sf-user-form {
+        padding: 22px 20px;
+    }
+
+    .sf-user-form-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .sf-user-form-full {
+        grid-column: auto;
+    }
+
+    .sf-user-form-message {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sf-user-form-page {
+        padding: 16px 12px;
+    }
+
+    .sf-user-form-heading {
+        gap: 11px;
+    }
+
+    .sf-user-form-heading h1 {
+        font-size: 22px;
+    }
+
+    .sf-user-form-heading p {
+        font-size: 12px;
+    }
+
+    .sf-user-form-back-button {
+        width: 38px;
+        height: 38px;
+    }
+
+    .sf-user-form-card {
+        border-radius: 11px;
+    }
+
+    .sf-user-form-card-header {
+        padding: 18px 16px;
+    }
+
+    .sf-user-form {
+        padding: 20px 16px;
+    }
+
+    .sf-user-form-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .sf-user-form-cancel-button,
+    .sf-user-form-save-button {
+        width: 100%;
+    }
+
+    .sf-user-form-message {
+        margin-right: 16px;
+        margin-left: 16px;
+    }
+}
+
+
+/* READ-ONLY USER DETAILS */
+
+.sf-user-readonly-value {
+    width: 100%;
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+    padding: 10px 13px;
+    border: 1px solid #e5e9f0;
+    border-radius: 8px;
+    background: #f5f7fa;
+    color: #657187;
+    font-family: inherit;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .sf-user-readonly-value {
+        min-height: 43px;
+    }
+}
+

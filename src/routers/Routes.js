@@ -35,6 +35,12 @@ import DeviceList from "../components/devices/DeviceList";
 import DeviceView from "../components/devices/DeviceView";
 import DeviceAdd from "../components/devices/DeviceAdd";
 import DeviceEdit from "../components/devices/DeviceEdit";
+import UserList from "../components/user/UserList";
+import AddUser from "../components/user/AddUser";
+import EditUser from "../components/user/EditUser";
+import UserView from "../components/user/UserView";
+import UserPermission from "../components/permissions/UserPermission";
+import UserTypePermission from "../components/permissions/UserTypePermission";
 
 function AppRoutes() {
     return (
@@ -92,6 +98,16 @@ function AppRoutes() {
             <Route path="/device/add" element={<DeviceAdd/>}/>
             <Route path="/device/:id" element={<DeviceView/>}/>
             <Route path="/device/edit/:id" element={<DeviceEdit/>}/>
+
+            {/* User */}
+            <Route path="/user" element={<UserList/>}/>
+            <Route path="/user/add" element={<AddUser/>}/>
+            <Route path="/user/edit/:id" element={<EditUser/>}/>
+            <Route path="/user/:id" element={<UserView/>}/>
+
+            {/* UserPermissions */}
+            <Route path="/user-permissions" element={<UserPermission/>}/>
+            <Route path="/userType-permissions" element={<UserTypePermission/>}/>
 
             
           </Route>
