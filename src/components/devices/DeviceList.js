@@ -9,6 +9,7 @@ import {
     FiEdit2,
     FiCpu,
     FiShield,
+    FiPlus
 } from "react-icons/fi";
 
 import { useNavigate } from "react-router-dom";
@@ -112,6 +113,10 @@ function DeviceList() {
         fetchDevices(true);
     };
 
+    const handleAddDevice=()=> {
+        navigate("/device/add");
+    }
+
     const handleView = (deviceId) => {
         navigate(`/device/${deviceId}`);
         setOpenMenuId(null);
@@ -175,8 +180,16 @@ function DeviceList() {
                     <h1>Devices</h1>
                     <p>Manage GPS tracking devices.</p>
                 </div>
-            </div>
 
+                    <button
+                        className="sf-branch-add-button"
+                        onClick={handleAddDevice}
+                        >
+                        <FiPlus />
+                        <span>Add Device</span>
+                    </button>
+
+            </div>
             {error && (
                 <div
                     className="sf-branch-error"

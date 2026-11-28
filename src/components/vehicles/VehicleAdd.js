@@ -4,17 +4,28 @@ import {
     FiSave,
     FiAlertCircle,
     FiCheckCircle,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import { getBranches } from "../../services/branchService";
 import { addVehicle } from "../../services/vehicleService";
 import { validateVehicle } from "../../utils/vehicleValidation";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 import "../../css/VehicleForm.css";
 
 const VehicleAdd = () => {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canAddVehicles =
+        !permissionsLoading && hasPermission("Vehicle", "canAdd");
 
     const [branches, setBranches] = useState([]);
 
@@ -38,6 +49,10 @@ const VehicleAdd = () => {
     const [success, setSuccess] = useState("");
 
     useEffect(() => {
+
+        if (permissionsLoading || !canAddVehicles) {
+            return;
+        }
         const fetchBranches = async () => {
             try {
                 setLoadingBranches(true);
@@ -58,7 +73,11 @@ const VehicleAdd = () => {
         };
 
         fetchBranches();
-    }, []);
+    }, [permissionsLoading, canAddVehicles]);
+
+    const handleBack = () => {
+        navigate("/vehicle");
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -81,7 +100,13 @@ const VehicleAdd = () => {
     };
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
+
+        if (!canAddVehicles) {
+            setError("You don't have permission to add vehicles.");
+            return;
+        }
 
         const validationErrors = validateVehicle(formData);
 
@@ -133,6 +158,55 @@ const VehicleAdd = () => {
         }
     };
 
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canAddVehicles) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to create a new vehicle.
+                        <br />
+                        Please contact your administrator if you believe you
+                        should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to Vehicles
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="sf-vehicle-form-page">
             {/* PAGE HEADER */}
@@ -141,7 +215,7 @@ const VehicleAdd = () => {
                     <button
                         type="button"
                         className="sf-vehicle-form-back-button"
-                        onClick={() => navigate("/vehicles")}
+                        onClick={handleBack}
                     >
                         <FiArrowLeft size={18} />
                     </button>

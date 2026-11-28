@@ -10,15 +10,28 @@ import {
     FiCalendar,
     FiClock,
     FiAlertCircle,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { getSimById } from "../../services/simService";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 import "../../css/SimView.css";
 
 const SimView = () => {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewSims =
+        !permissionsLoading && hasPermission("SIM", "canView");
+
+    const canEditSims =
+        !permissionsLoading && hasPermission("SIM", "canEdit");
     const { id } = useParams();
 
     const [sim, setSim] = useState(null);
@@ -79,11 +92,64 @@ const SimView = () => {
         });
     };
 
+    const handleBack = () => {
+        navigate("/sim");
+    };
+
     const normalizedStatus =
         sim?.status?.toLowerCase() === "active"
             ? "active"
             : "inactive";
 
+
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewSims) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to view SIM details.
+                        <br />
+                        Please contact your administrator if you believe you
+                        should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to SIMs
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+                </div>
+            </div>
+        );
+    }
     if (loading) {
         return (
             <div className="sf-sim-view-page">
@@ -131,7 +197,7 @@ const SimView = () => {
                     <button
                         type="button"
                         className="sf-sim-view-back-button"
-                        onClick={() => navigate("/sims")}
+                        onClick={handleBack}
                     >
                         <FiArrowLeft />
                     </button>
@@ -145,16 +211,18 @@ const SimView = () => {
                     </div>
                 </div>
 
-                <button
-                    type="button"
-                    className="sf-sim-view-edit-button"
-                    onClick={() =>
-                        navigate(`/sims/edit/${id}`)
-                    }
-                >
-                    <FiEdit2 />
-                    <span>Edit SIM</span>
-                </button>
+                {canEditSims && (
+                    <button
+                        type="button"
+                        className="sf-sim-view-edit-button"
+                        onClick={() =>
+                            navigate(`/sim/edit/${id}`)
+                        }
+                    >
+                        <FiEdit2 />
+                        <span>Edit SIM</span>
+                    </button>
+                )}
             </div>
 
             {/* =========================
@@ -172,8 +240,8 @@ const SimView = () => {
 
                         <span
                             className={`sf-sim-view-status-badge ${normalizedStatus === "active"
-                                    ? "sf-sim-view-status-active"
-                                    : "sf-sim-view-status-inactive"
+                                ? "sf-sim-view-status-active"
+                                : "sf-sim-view-status-inactive"
                                 }`}
                         >
                             {normalizedStatus === "active"

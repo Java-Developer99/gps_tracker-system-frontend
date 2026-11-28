@@ -9,12 +9,21 @@ import {
     FiSmartphone,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
 import { getSims } from "../../services/simService";
 import "../../css/SimList.css";
+import { usePermission } from "../../context/PermissionContext";
 
 const SimList = () => {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewSims = hasPermission("SIM", "canView");
+    const canAddSims = hasPermission("SIM", "canAdd");
+    const canEditSims = hasPermission("SIM", "canEdit");
 
     const [sims, setSims] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -65,8 +74,10 @@ const SimList = () => {
     };
 
     useEffect(() => {
-        fetchSims();
-    }, []);
+        if (!permissionsLoading && canViewSims) {
+            fetchSims();
+        }
+    }, [permissionsLoading, canViewSims]);
 
     const filteredSims = useMemo(() => {
         const search = searchTerm.trim().toLowerCase();
@@ -104,6 +115,27 @@ const SimList = () => {
         navigate(`/sims/edit/${id}`);
     };
 
+    if (permissionsLoading) {
+        return (
+            <div className="sf-sim-list-page">
+                <div className="sf-sim-list-loading">
+                    <div className="sf-sim-list-spinner" />
+                    <span>Checking permissions...</span>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canViewSims) {
+        return (
+            <div className="sf-sim-list-page">
+                <div className="sf-sim-list-error">
+                    Access Denied: You do not have permission to view SIMs.
+                </div>
+            </div>
+        );
+    }
+
     if (loading) {
         return (
             <div className="sf-sim-list-page">
@@ -126,14 +158,16 @@ const SimList = () => {
                     </p>
                 </div>
 
-                <button
-                    type="button"
-                    className="sf-sim-add-button"
-                    onClick={() => navigate("/sims/add")}
-                >
-                    <FiPlus />
-                    <span>Add SIM</span>
-                </button>
+                {canAddSims && (
+                    <button
+                        type="button"
+                        className="sf-sim-add-button"
+                        onClick={() => navigate("/sim/add")}
+                    >
+                        <FiPlus />
+                        <span>Add SIM</span>
+                    </button>
+                )}
             </div>
 
             {/* Error */}
@@ -280,9 +314,9 @@ const SimList = () => {
                                         <td>
                                             <span
                                                 className={`sf-sim-status-badge ${sim.status.toLowerCase() ===
-                                                        "active"
-                                                        ? "sf-sim-status-active"
-                                                        : "sf-sim-status-inactive"
+                                                    "active"
+                                                    ? "sf-sim-status-active"
+                                                    : "sf-sim-status-inactive"
                                                     }`}
                                             >
                                                 {sim.status
@@ -310,33 +344,31 @@ const SimList = () => {
 
                                             {openMenuId === sim.id && (
                                                 <div className="sf-sim-action-menu">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() =>
-                                                            handleView(
-                                                                sim.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <FiEye />
-                                                        <span>
-                                                            View
-                                                        </span>
-                                                    </button>
+                                                    {canViewSims && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleView(
+                                                                    sim.id
+                                                                )
+                                                            }
+                                                        >
+                                                            <FiEye />
+                                                            <span>
+                                                                View
+                                                            </span>
+                                                        </button>
+                                                    )}
 
-                                                    <button
-                                                        type="button"
-                                                        onClick={() =>
-                                                            handleEdit(
-                                                                sim.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <FiEdit2 />
-                                                        <span>
-                                                            Edit
-                                                        </span>
-                                                    </button>
+                                                    {canEditSims && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleEdit(sim.id)}
+                                                        >
+                                                            <FiEdit2 />
+                                                            <span>Edit</span>
+                                                        </button>
+                                                    )}
                                                 </div>
                                             )}
                                         </td>

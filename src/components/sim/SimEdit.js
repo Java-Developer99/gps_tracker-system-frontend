@@ -4,8 +4,11 @@ import {
     FiSave,
     FiAlertCircle,
     FiCheckCircle,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 import {
     getSimById,
@@ -18,6 +21,14 @@ import "../../css/SimForm.css";
 
 const SimEdit = () => {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canEditSims =
+        !permissionsLoading && hasPermission("SIM", "canEdit");
     const { id } = useParams();
 
     const [formData, setFormData] = useState({
@@ -36,6 +47,11 @@ const SimEdit = () => {
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
+
+        if (permissionsLoading || !canEditSims) {
+            return;
+        }
+
         let mounted = true;
 
         const fetchSim = async () => {
@@ -75,7 +91,11 @@ const SimEdit = () => {
         return () => {
             mounted = false;
         };
-    }, [id]);
+    }, [id, permissionsLoading, canEditSims]);
+
+    const handleBack = () => {
+        navigate("/sim");
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -98,6 +118,11 @@ const SimEdit = () => {
     };
 
     const handleSubmit = async (e) => {
+
+        if (!canEditSims) {
+            setSubmitError("You don't have permission to edit SIMs.");
+            return;
+        }
         e.preventDefault();
 
         setSubmitError("");
@@ -140,6 +165,55 @@ const SimEdit = () => {
         }
     };
 
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canEditSims) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to edit SIM details.
+                        <br />
+                        Please contact your administrator if you believe you
+                        should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to SIMs
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+                </div>
+            </div>
+        );
+    }
+
     if (loading) {
         return (
             <div className="sf-sim-form-page">
@@ -165,7 +239,7 @@ const SimEdit = () => {
 
                     <button
                         type="button"
-                        onClick={() => navigate("/sims")}
+                        onClick={handleBack}
                     >
                         Back to SIMs
                     </button>
@@ -182,7 +256,7 @@ const SimEdit = () => {
                     <button
                         type="button"
                         className="sf-sim-form-back-button"
-                        onClick={() => navigate("/sims")}
+                        onClick={handleBack}
                     >
                         <FiArrowLeft />
                     </button>

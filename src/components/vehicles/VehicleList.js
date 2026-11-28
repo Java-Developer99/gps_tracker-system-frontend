@@ -11,12 +11,21 @@ import {
     FiUnlock,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
+import { usePermission } from "../../context/PermissionContext";
 import { getVehicles } from "../../services/vehicleService";
 import "../../css/VehicleList.css";
 
 const VehicleList = () => {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canViewVehicles = hasPermission("Vehicle", "canView");
+    const canAddVehicles = hasPermission("Vehicle", "canAdd");
+    const canEditVehicles = hasPermission("Vehicle", "canEdit");
 
     const [vehicles, setVehicles] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -65,6 +74,8 @@ const VehicleList = () => {
                     regNo: vehicle.regNo || "",
                     make: vehicle.make || "",
                     model: vehicle.model || "",
+                    device: vehicle.device || null,
+                    sim: vehicle.sim || null,
                     year: vehicle.year ?? "",
                     odoMeter: vehicle.odoMeter ?? 0,
                     active: vehicle.active ?? true,
@@ -90,8 +101,10 @@ const VehicleList = () => {
     }, []);
 
     useEffect(() => {
-        fetchVehicles();
-    }, [fetchVehicles]);
+        if (!permissionsLoading && canViewVehicles) {
+            fetchVehicles();
+        }
+    }, [permissionsLoading, canViewVehicles, fetchVehicles]);
 
     const filteredVehicles = useMemo(() => {
         const search = searchTerm.trim().toLowerCase();
@@ -142,37 +155,47 @@ const VehicleList = () => {
         return `${number.toLocaleString("en-IN")} km`;
     };
 
-    // const formatExpiryDate = (value) => {
-    //     if (!value) {
-    //         return "—";
-    //     }
+    if (permissionsLoading) {
+        return (
+            <div className="sf-vehicle-list-page">
+                <div className="sf-vehicle-loading">
+                    <div className="sf-vehicle-spinner"></div>
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
 
-    //     const date = new Date(value);
+    if (!canViewVehicles) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <div className="sf-access-denied-icon">
+                        <FiTruck />
+                    </div>
 
-    //     if (Number.isNaN(date.getTime())) {
-    //         return "—";
-    //     }
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
 
-    //     return date.toLocaleDateString("en-IN", {
-    //         day: "2-digit",
-    //         month: "short",
-    //         year: "numeric",
-    //     });
-    // };
+                    <h1>Access Denied</h1>
 
-    // const isExpired = (value) => {
-    //     if (!value) {
-    //         return false;
-    //     }
+                    <p>
+                        You don't have permission to view vehicles.
+                        <br />
+                        Please contact your administrator if you believe you
+                        should have access to this feature.
+                    </p>
 
-    //     const date = new Date(value);
+                    <div className="sf-access-denied-divider"></div>
 
-    //     if (Number.isNaN(date.getTime())) {
-    //         return false;
-    //     }
-
-    //     return date < new Date();
-    // };
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+                </div>
+            </div>
+        );
+    }
 
     if (loading) {
         return (
@@ -196,13 +219,15 @@ const VehicleList = () => {
                     </p>
                 </div>
 
-                <button
-                    className="sf-vehicle-add-button"
-                    onClick={() => navigate("/vehicles/add")}
-                >
-                    <FiPlus size={17} />
-                    Add Vehicle
-                </button>
+                {canAddVehicles && (
+                    <button
+                        className="sf-vehicle-add-button"
+                        onClick={() => navigate("/vehicles/add")}
+                    >
+                        <FiPlus size={17} />
+                        Add Vehicle
+                    </button>
+                )}
             </div>
 
             {/* ERROR */}
@@ -288,6 +313,8 @@ const VehicleList = () => {
                                     <th>Branch</th>
                                     <th>Vehicle Type</th>
                                     <th>Odometer</th>
+                                    <th>Device Mapping</th>
+<th>SIM Mapping</th>
                                     <th>Status</th>
                                     <th>Access</th>
                                     <th></th>
@@ -365,12 +392,36 @@ const VehicleList = () => {
                                                 </span>
                                             </td>
 
+                                            {/* DEVICE MAPPING */}
+<td>
+    <span
+        className={`sf-vehicle-mapping-status ${
+            vehicle.device ? "associated" : "unassociated"
+        }`}
+    >
+        <span className="sf-vehicle-mapping-status-dot"></span>
+        {vehicle.device ? "Associated" : "Unassociated"}
+    </span>
+</td>
+
+{/* SIM MAPPING */}
+<td>
+    <span
+        className={`sf-vehicle-mapping-status ${
+            vehicle.sim ? "associated" : "unassociated"
+        }`}
+    >
+        <span className="sf-vehicle-mapping-status-dot"></span>
+        {vehicle.sim ? "Associated" : "Unassociated"}
+    </span>
+</td>
+
                                             {/* STATUS */}
                                             <td>
                                                 <span
                                                     className={`sf-vehicle-status-badge ${vehicle.active
-                                                            ? "active"
-                                                            : "inactive"
+                                                        ? "active"
+                                                        : "inactive"
                                                         }`}
                                                 >
                                                     <span></span>
@@ -384,8 +435,8 @@ const VehicleList = () => {
                                             <td>
                                                 <span
                                                     className={`sf-vehicle-access-badge ${vehicle.accessBlocked
-                                                            ? "blocked"
-                                                            : "allowed"
+                                                        ? "blocked"
+                                                        : "allowed"
                                                         }`}
                                                 >
                                                     {vehicle.accessBlocked ? (
@@ -427,31 +478,30 @@ const VehicleList = () => {
                                                 {openMenuId ===
                                                     vehicle.id && (
                                                         <div className="sf-vehicle-action-menu">
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleView(
-                                                                        vehicle.id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <FiEye
-                                                                    size={15}
-                                                                />
-                                                                View
-                                                            </button>
+                                                            {canViewVehicles && (
 
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleEdit(
-                                                                        vehicle.id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <FiEdit2
-                                                                    size={15}
-                                                                />
-                                                                Edit
-                                                            </button>
+                                                                <button
+                                                                    onClick={() =>
+                                                                        handleView(
+                                                                            vehicle.id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <FiEye
+                                                                        size={15}
+                                                                    />
+                                                                    View
+                                                                </button>
+                                                            )}
+
+                                                            {canEditVehicles && (
+                                                                <button
+                                                                    onClick={() => handleEdit(vehicle.id)}
+                                                                >
+                                                                    <FiEdit2 size={15} />
+                                                                    Edit
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     )}
                                             </td>

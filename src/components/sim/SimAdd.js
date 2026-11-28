@@ -4,15 +4,26 @@ import {
     FiSave,
     FiAlertCircle,
     FiCheckCircle,
+    FiShield,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import { addSim } from "../../services/simService";
 import { validateSim } from "../../utils/simValidation";
 import "../../css/SimForm.css";
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 
 const SimAdd = () => {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canAddSims =
+        !permissionsLoading && hasPermission("SIM", "canAdd");
 
     const [formData, setFormData] = useState({
         simNo: "",
@@ -51,8 +62,19 @@ const SimAdd = () => {
         }
     };
 
+    const handleBack = () => {
+        navigate("/sim");
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!canAddSims) {
+            setSubmitError(
+                "You don't have permission to add SIMs."
+            );
+            return;
+        }
 
         setSubmitError("");
         setSuccessMessage("");
@@ -94,6 +116,57 @@ const SimAdd = () => {
         }
     };
 
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canAddSims) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to create a new SIM.
+                        <br />
+                        Please contact your administrator if you believe you
+                        should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to SIMs
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="sf-sim-form-page">
             {/* Page Header */}
@@ -102,7 +175,7 @@ const SimAdd = () => {
                     <button
                         type="button"
                         className="sf-sim-form-back-button"
-                        onClick={() => navigate("/sims")}
+                        onClick={handleBack}
                     >
                         <FiArrowLeft />
                     </button>

@@ -4,9 +4,11 @@ import {
     FiSave,
     FiAlertCircle,
     FiCheckCircle,
+    FiShield
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { usePermission } from "../../context/PermissionContext";
+import "../../css/AccessDenied.css";
 import { getBranches } from "../../services/branchService";
 import {
     getVehicleById,
@@ -18,6 +20,14 @@ import "../../css/VehicleForm.css";
 
 const VehicleEdit = () => {
     const navigate = useNavigate();
+
+    const {
+        hasPermission,
+        loading: permissionsLoading
+    } = usePermission();
+
+    const canEditVehicles =
+        !permissionsLoading && hasPermission("Vehicle", "canEdit");
     const { id } = useParams();
 
     const [branches, setBranches] = useState([]);
@@ -43,6 +53,10 @@ const VehicleEdit = () => {
     const [success, setSuccess] = useState("");
 
     useEffect(() => {
+
+        if (permissionsLoading || !canEditVehicles) {
+            return;
+        }
         const fetchData = async () => {
             try {
                 setLoading(true);
@@ -113,7 +127,11 @@ const VehicleEdit = () => {
         };
 
         fetchData();
-    }, [id]);
+    }, [id, permissionsLoading, canEditVehicles]);
+
+    const handleBack = () => {
+        navigate("/vehicle");
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -140,6 +158,11 @@ const VehicleEdit = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!canEditVehicles) {
+            setError("You don't have permission to edit vehicles.");
+            return;
+        }
 
         const validationErrors =
             validateVehicle(formData);
@@ -204,6 +227,55 @@ const VehicleEdit = () => {
         }
     };
 
+    if (permissionsLoading) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <p>Checking permissions...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!canEditVehicles) {
+        return (
+            <div className="sf-access-denied-page">
+                <div className="sf-access-denied-card">
+                    <div className="sf-access-denied-icon">
+                        <FiShield />
+                    </div>
+
+                    <div className="sf-access-denied-label">
+                        ACCESS RESTRICTED
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <p>
+                        You don't have permission to edit vehicles.
+                        <br />
+                        Please contact your administrator if you believe you
+                        should have access to this feature.
+                    </p>
+
+                    <div className="sf-access-denied-divider"></div>
+
+                    <button
+                        className="sf-access-denied-button"
+                        onClick={handleBack}
+                    >
+                        <FiArrowLeft />
+                        Back to Vehicles
+                    </button>
+
+                    <span className="sf-access-denied-footer">
+                        SyncFleet · Access Control
+                    </span>
+                </div>
+            </div>
+        );
+    }
+
     if (loading) {
         return (
             <div className="sf-vehicle-form-page">
@@ -229,9 +301,7 @@ const VehicleEdit = () => {
 
                     <button
                         type="button"
-                        onClick={() =>
-                            navigate("/vehicles")
-                        }
+                        onClick={handleBack}
                     >
                         Back to Vehicles
                     </button>
@@ -248,9 +318,7 @@ const VehicleEdit = () => {
                     <button
                         type="button"
                         className="sf-vehicle-form-back-button"
-                        onClick={() =>
-                            navigate("/vehicles")
-                        }
+                        onClick={handleBack}
                     >
                         <FiArrowLeft size={18} />
                     </button>
